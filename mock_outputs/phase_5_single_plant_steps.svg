@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1500" viewBox="0 0 1600 1500">
+  <rect width="1600" height="1500" fill="#f2fbf8"/>
+  <text x="60" y="70" font-family="Arial" font-size="38" font-weight="700" fill="#216a5a">Phase 5 - One Plant Through the Full Algorithm</text>
+  <text x="60" y="110" font-family="Arial" font-size="20" fill="#4d7269">Mock visual showing spray amount calculation from infection_average.</text>
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#c8e7de; stroke-width:2; rx:18; }
+      .title { font-family:Arial; font-size:24px; font-weight:700; fill:#216a5a; }
+      .desc { font-family:Arial; font-size:18px; fill:#2f2f2f; }
+      .small { font-family:Arial; font-size:16px; fill:#4d7269; }
+    </style>
+  </defs>
+  <rect class="card" x="50" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="830" width="1500" height="320" rx="18"/>
+
+  <text x="75" y="190" class="title">1. Read infection_average</text>
+  <text x="75" y="230" class="small">Take the severity result from phase 4.</text>
+  <text x="95" y="320" class="desc">I_avg = 0.1053</text>
+
+  <text x="845" y="190" class="title">2. Load Formula Constants</text>
+  <text x="845" y="230" class="small">Current coded project constants or user inputs.</text>
+  <text x="865" y="300" class="desc">P_ref = 10.0</text>
+  <text x="865" y="335" class="desc">I_ref = 0.10</text>
+  <text x="865" y="370" class="desc">D_current = 1.0</text>
+  <text x="865" y="405" class="desc">D_ref = 1.0</text>
+
+  <text x="75" y="530" class="title">3. Apply Current Formula</text>
+  <text x="75" y="570" class="small">Use the implemented project formula as coded.</text>
+  <text x="95" y="650" class="desc">P_plant = P_ref x (I_avg / I_ref) x (D_current / D_ref)</text>
+
+  <text x="845" y="530" class="title">4. Calculate Spray Value</text>
+  <text x="845" y="570" class="small">Numeric calculation for the current plant.</text>
+  <text x="865" y="650" class="desc">P_plant = 10 x (0.1053 / 0.10) x (1 / 1)</text>
+  <text x="865" y="695" class="desc">P_plant = 10.53 ml</text>
+
+  <text x="75" y="870" class="title">5. Save Phase-5 Output</text>
+  <text x="75" y="910" class="small">Pass spray_ml_per_plant into phase 6.</text>
+  <text x="95" y="990" class="desc">phase_5_output.spray_ml_per_plant = 10.53</text>
+  <text x="95" y="1035" class="desc">context.spray_ml_per_plant = 10.53</text>
+  <text x="95" y="1090" class="small">This visual reflects the current coded formula only.</text>
+</svg>

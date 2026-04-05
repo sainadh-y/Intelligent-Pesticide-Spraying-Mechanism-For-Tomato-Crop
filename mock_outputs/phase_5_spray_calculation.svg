@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f2fbf8"/>
+  <rect x="40" y="30" width="1120" height="700" rx="24" fill="#ffffff" stroke="#216a5a" stroke-width="4"/>
+  <text x="70" y="90" font-family="Arial" font-size="34" font-weight="700" fill="#216a5a">Phase 5 - Spray Calculation</text>
+  <text x="70" y="130" font-family="Arial" font-size="20" fill="#4d7269">Mock output using current coded project formula.</text>
+
+  <rect x="70" y="180" width="1060" height="420" rx="16" fill="#f8fffd" stroke="#c8e7de" stroke-width="2"/>
+  <text x="95" y="230" font-family="Arial" font-size="26" font-weight="700" fill="#216a5a">Inputs</text>
+  <text x="95" y="280" font-family="Arial" font-size="22" fill="#2f2f2f">I_avg = 0.1053</text>
+  <text x="95" y="320" font-family="Arial" font-size="22" fill="#2f2f2f">P_ref = 10.0</text>
+  <text x="95" y="360" font-family="Arial" font-size="22" fill="#2f2f2f">I_ref = 0.10</text>
+  <text x="95" y="400" font-family="Arial" font-size="22" fill="#2f2f2f">D_current = 1.0</text>
+  <text x="95" y="440" font-family="Arial" font-size="22" fill="#2f2f2f">D_ref = 1.0</text>
+
+  <text x="95" y="520" font-family="Arial" font-size="24" font-weight="700" fill="#216a5a">Formula</text>
+  <text x="95" y="560" font-family="Arial" font-size="24" fill="#2f2f2f">P_plant = P_ref x (I_avg / I_ref) x (D_current / D_ref)</text>
+  <text x="95" y="610" font-family="Arial" font-size="28" font-weight="700" fill="#216a5a">P_plant = 10 x (0.1053 / 0.10) x (1 / 1) = 10.53 ml</text>
+</svg>

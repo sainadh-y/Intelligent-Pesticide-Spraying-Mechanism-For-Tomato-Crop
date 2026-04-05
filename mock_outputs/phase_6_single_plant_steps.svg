@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1500" viewBox="0 0 1600 1500">
+  <rect width="1600" height="1500" fill="#fff9f3"/>
+  <text x="60" y="70" font-family="Arial" font-size="38" font-weight="700" fill="#8a5a16">Phase 6 - One Plant Through the Full Algorithm</text>
+  <text x="60" y="110" font-family="Arial" font-size="20" fill="#7a6949">Mock visual showing how the spray action is selected from the phase-5 value.</text>
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#ead8b7; stroke-width:2; rx:18; }
+      .title { font-family:Arial; font-size:24px; font-weight:700; fill:#8a5a16; }
+      .desc { font-family:Arial; font-size:18px; fill:#2f2f2f; }
+      .small { font-family:Arial; font-size:16px; fill:#7a6949; }
+    </style>
+  </defs>
+  <rect class="card" x="50" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="830" width="1500" height="320" rx="18"/>
+
+  <text x="75" y="190" class="title">1. Read Spray Value</text>
+  <text x="75" y="230" class="small">Take spray_ml_per_plant from phase 5.</text>
+  <text x="95" y="320" class="desc">spray_ml_per_plant = 10.53</text>
+
+  <text x="845" y="190" class="title">2. Compare Against Rules</text>
+  <text x="845" y="230" class="small">Current project rule set.</text>
+  <text x="865" y="300" class="desc">if P &lt;= 10 -> standard_spray</text>
+  <text x="865" y="340" class="desc">elif 10 &lt; P &lt;= 75 -> scaled_spray</text>
+  <text x="865" y="380" class="desc">else -> spray_color_marking</text>
+
+  <text x="75" y="530" class="title">3. Match Condition</text>
+  <text x="75" y="570" class="small">Current value falls in the middle range.</text>
+  <text x="95" y="650" class="desc">10 &lt; 10.53 &lt;= 75</text>
+  <text x="95" y="695" class="desc">Matched rule = scaled_spray</text>
+
+  <text x="845" y="530" class="title">4. Set Action Output</text>
+  <text x="845" y="570" class="small">Create the final action parameters.</text>
+  <text x="865" y="650" class="desc">spray_mode = scaled_spray</text>
+  <text x="865" y="690" class="desc">applied_output = 10.53</text>
+  <text x="865" y="730" class="desc">action = spray_pesticide</text>
+
+  <text x="75" y="870" class="title">5. Save Phase-6 Output</text>
+  <text x="75" y="910" class="small">Pass final action into phase 7.</text>
+  <text x="95" y="990" class="desc">phase_6_output.spray_mode = scaled_spray</text>
+  <text x="95" y="1030" class="desc">phase_6_output.action = spray_pesticide</text>
+  <text x="95" y="1070" class="desc">phase_6_output.applied_output = 10.53</text>
+</svg>

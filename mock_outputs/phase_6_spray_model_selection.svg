@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#fff9f3"/>
+  <rect x="40" y="30" width="1120" height="700" rx="24" fill="#ffffff" stroke="#8a5a16" stroke-width="4"/>
+  <text x="70" y="90" font-family="Arial" font-size="34" font-weight="700" fill="#8a5a16">Phase 6 - Spray Model Selection</text>
+  <text x="70" y="130" font-family="Arial" font-size="20" fill="#7a6949">Mock output: action selected from phase-5 spray amount.</text>
+
+  <rect x="70" y="200" width="1060" height="360" rx="16" fill="#fffdf8" stroke="#ead8b7" stroke-width="2"/>
+  <text x="95" y="260" font-family="Arial" font-size="28" font-weight="700" fill="#8a5a16">Input</text>
+  <text x="95" y="310" font-family="Arial" font-size="24" fill="#2f2f2f">spray_ml_per_plant = 10.53</text>
+
+  <text x="95" y="390" font-family="Arial" font-size="28" font-weight="700" fill="#8a5a16">Rule Match</text>
+  <text x="95" y="440" font-family="Arial" font-size="24" fill="#2f2f2f">10 &lt; P_plant &lt;= 75  ->  scaled_spray</text>
+
+  <text x="95" y="520" font-family="Arial" font-size="28" font-weight="700" fill="#8a5a16">Output</text>
+  <text x="95" y="570" font-family="Arial" font-size="24" fill="#2f2f2f">spray_mode = scaled_spray</text>
+  <text x="95" y="605" font-family="Arial" font-size="24" fill="#2f2f2f">applied_output = 10.53</text>
+  <text x="95" y="640" font-family="Arial" font-size="24" fill="#2f2f2f">action = spray_pesticide</text>
+</svg>

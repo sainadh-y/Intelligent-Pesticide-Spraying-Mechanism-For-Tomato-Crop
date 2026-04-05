@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1600" viewBox="0 0 1600 1600">
+  <rect width="1600" height="1600" fill="#f7f4fb"/>
+  <text x="60" y="70" font-family="Arial" font-size="38" font-weight="700" fill="#53317d">Phase 4 - One Plant Through the Full Algorithm</text>
+  <text x="60" y="110" font-family="Arial" font-size="20" fill="#6b5a82">Mock visual showing disease percentages and damage combined into one infection average.</text>
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#d6c9ea; stroke-width:2; rx:18; }
+      .title { font-family:Arial; font-size:24px; font-weight:700; fill:#53317d; }
+      .desc { font-family:Arial; font-size:18px; fill:#2f2f2f; }
+      .small { font-family:Arial; font-size:16px; fill:#6b5a82; }
+    </style>
+  </defs>
+  <rect class="card" x="50" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="830" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="830" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="1170" width="1500" height="280" rx="18"/>
+
+  <text x="75" y="190" class="title">1. Read Phase-2 Disease Output</text>
+  <text x="75" y="230" class="small">Use plant-level disease percentages from phase 2.</text>
+  <text x="95" y="290" class="desc">late_blight = 0.16</text>
+  <text x="95" y="325" class="desc">early_blight = 0.24</text>
+  <text x="95" y="360" class="desc">septoria = 0.07</text>
+  <text x="95" y="395" class="desc">bacterial_spot = 0.02, leaf_mold = 0.03, ...</text>
+
+  <text x="845" y="190" class="title">2. Read Phase-3 Damage Output</text>
+  <text x="845" y="230" class="small">Use average visible leaf damage for the plant.</text>
+  <text x="865" y="320" class="desc">damage = 0.16</text>
+
+  <text x="75" y="530" class="title">3. Load Final Weights</text>
+  <text x="75" y="570" class="small">Use confirmed project ranking-based weights.</text>
+  <text x="95" y="630" class="desc">late_blight = 0.2222</text>
+  <text x="95" y="665" class="desc">early_blight = 0.1944</text>
+  <text x="95" y="700" class="desc">septoria = 0.1667</text>
+  <text x="95" y="735" class="desc">damage = 0.0278</text>
+
+  <text x="845" y="530" class="title">4. Multiply Each Component by Weight</text>
+  <text x="845" y="570" class="small">Weighted contribution of each severity signal.</text>
+  <text x="865" y="630" class="desc">0.16 x 0.2222 = 0.0356</text>
+  <text x="865" y="665" class="desc">0.24 x 0.1944 = 0.0467</text>
+  <text x="865" y="700" class="desc">0.07 x 0.1667 = 0.0117</text>
+  <text x="865" y="735" class="desc">0.16 x 0.0278 = 0.0044</text>
+
+  <text x="75" y="870" class="title">5. Sum All Weighted Contributions</text>
+  <text x="75" y="910" class="small">Combine disease and damage into one plant score.</text>
+  <text x="95" y="980" class="desc">infection_average = sum(all weighted terms)</text>
+  <text x="95" y="1020" class="desc">infection_average = 0.1053</text>
+
+  <text x="845" y="870" class="title">6. Save Final Aggregation Output</text>
+  <text x="845" y="910" class="small">Pass infection_average to phase 5.</text>
+  <text x="865" y="980" class="desc">phase_4_output.infection_average = 0.1053</text>
+
+  <text x="75" y="1210" class="title">7. Core Formula</text>
+  <text x="75" y="1270" class="desc">infection_average = sum(disease_percentage_i x disease_weight_i) + (damage x damage_weight)</text>
+  <text x="75" y="1320" class="desc">The weights sum to 1 after normalization.</text>
+  <text x="75" y="1370" class="small">This visual is a mock explanation image, not a real runtime screenshot.</text>
+</svg>

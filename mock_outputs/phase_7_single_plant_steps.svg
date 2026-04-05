@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1700" viewBox="0 0 1600 1700">
+  <rect width="1600" height="1700" fill="#f6f6f6"/>
+  <text x="60" y="70" font-family="Arial" font-size="38" font-weight="700" fill="#333333">Phase 7 - One Plant Through the Full Algorithm</text>
+  <text x="60" y="110" font-family="Arial" font-size="20" fill="#666666">Mock visual showing relay action, belt movement, and final execution output.</text>
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#d8d8d8; stroke-width:2; rx:18; }
+      .title { font-family:Arial; font-size:24px; font-weight:700; fill:#333333; }
+      .desc { font-family:Arial; font-size:18px; fill:#2f2f2f; }
+      .small { font-family:Arial; font-size:16px; fill:#666666; }
+    </style>
+  </defs>
+  <rect class="card" x="50" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="150" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="490" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="830" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="830" width="730" height="300" rx="18"/>
+  <rect class="card" x="50" y="1170" width="1500" height="320" rx="18"/>
+
+  <text x="75" y="190" class="title">1. Read Final Action</text>
+  <text x="75" y="230" class="small">Take spray mode and action from phase 6.</text>
+  <text x="95" y="305" class="desc">plant_id = plant_001</text>
+  <text x="95" y="340" class="desc">spray_mode = scaled_spray</text>
+  <text x="95" y="375" class="desc">action = spray_pesticide</text>
+  <text x="95" y="410" class="desc">applied_output = 10.53 ml</text>
+
+  <text x="845" y="190" class="title">2. Activate Spray Relay</text>
+  <text x="845" y="230" class="small">Relay output for spray pulse.</text>
+  <rect x="875" y="280" width="120" height="70" fill="#ddd" stroke="#888"/>
+  <circle cx="1045" cy="315" r="22" fill="#52b25d"/>
+  <text x="875" y="390" class="desc">spray_pulse = 0.60 s</text>
+
+  <text x="75" y="530" class="title">3. Complete Spray Action</text>
+  <text x="75" y="570" class="small">Spray ON, hold pulse, then OFF.</text>
+  <text x="95" y="650" class="desc">[1] spray relay ON</text>
+  <text x="95" y="690" class="desc">[2] wait 0.60 s</text>
+  <text x="95" y="730" class="desc">[3] spray relay OFF</text>
+
+  <text x="845" y="530" class="title">4. Move Belt Forward</text>
+  <text x="845" y="570" class="small">Use L298N direction and enable pins.</text>
+  <text x="865" y="650" class="desc">belt_in1 = ON</text>
+  <text x="865" y="690" class="desc">belt_in2 = OFF</text>
+  <text x="865" y="730" class="desc">belt_ena = 0.7</text>
+
+  <text x="75" y="870" class="title">5. Hold Movement Time</text>
+  <text x="75" y="910" class="small">Move until next plant position.</text>
+  <text x="95" y="990" class="desc">move_next_time = 1.00 s</text>
+
+  <text x="845" y="870" class="title">6. Stop Belt</text>
+  <text x="845" y="910" class="small">Turn off movement outputs.</text>
+  <text x="865" y="990" class="desc">belt_in1 = OFF</text>
+  <text x="865" y="1030" class="desc">belt_in2 = OFF</text>
+  <text x="865" y="1070" class="desc">belt_ena = OFF</text>
+
+  <text x="75" y="1210" class="title">7. Final Phase-7 Output</text>
+  <text x="75" y="1250" class="small">Store execution result for this plant cycle.</text>
+  <text x="95" y="1330" class="desc">phase_7_output.execution_status = completed</text>
+  <text x="95" y="1370" class="desc">phase_7_output.action = spray_pesticide</text>
+  <text x="95" y="1410" class="desc">phase_7_output.applied_output = 10.53</text>
+  <text x="95" y="1450" class="small">This visual is a mock explanation image, not a real hardware trace.</text>
+</svg>

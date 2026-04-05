@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800">
+  <rect width="1600" height="1800" fill="#f4f7f1"/>
+  <text x="60" y="70" font-family="Arial" font-size="38" font-weight="700" fill="#244b2f">Phase 1 - One Plant Through the Full Algorithm</text>
+  <text x="60" y="110" font-family="Arial" font-size="20" fill="#4e6651">Mock visual showing one plant from belt positioning to selected leaf outputs.</text>
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#cfdbcf; stroke-width:2; rx:18; }
+      .title { font-family:Arial; font-size:24px; font-weight:700; fill:#244b2f; }
+      .desc { font-family:Arial; font-size:18px; fill:#2f2f2f; }
+      .small { font-family:Arial; font-size:16px; fill:#5e6f61; }
+    </style>
+  </defs>
+  <rect class="card" x="50" y="150" width="470" height="300" rx="18"/>
+  <rect class="card" x="565" y="150" width="470" height="300" rx="18"/>
+  <rect class="card" x="1080" y="150" width="470" height="300" rx="18"/>
+  <rect class="card" x="50" y="490" width="470" height="300" rx="18"/>
+  <rect class="card" x="565" y="490" width="470" height="300" rx="18"/>
+  <rect class="card" x="1080" y="490" width="470" height="300" rx="18"/>
+  <rect class="card" x="50" y="830" width="470" height="300" rx="18"/>
+  <rect class="card" x="565" y="830" width="470" height="300" rx="18"/>
+  <rect class="card" x="1080" y="830" width="470" height="300" rx="18"/>
+  <rect class="card" x="50" y="1170" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="1170" width="730" height="300" rx="18"/>
+
+  <text x="75" y="190" class="title">1. Move Belt to Plant</text>
+  <text x="75" y="225" class="small">Timed movement to position camera over plant_001.</text>
+  <line x1="120" y1="320" x2="440" y2="320" stroke="#7d8f7e" stroke-width="10"/>
+  <circle cx="180" cy="320" r="28" fill="#809481"/>
+  <circle cx="380" cy="320" r="28" fill="#809481"/>
+  <rect x="220" y="250" width="120" height="45" fill="#6a8f5f"/>
+  <rect x="230" y="205" width="100" height="45" fill="#333"/>
+  <text x="95" y="395" class="desc">belt_move_time = 1.0 s</text>
+
+  <text x="590" y="190" class="title">2. Stop Above One Tomato Plant</text>
+  <text x="590" y="225" class="small">Camera aligned over canopy.</text>
+  <rect x="650" y="230" width="90" height="45" fill="#444"/>
+  <circle cx="695" cy="252" r="12" fill="#98d8ff"/>
+  <path d="M700 390 C645 340, 640 250, 700 245 C760 250, 755 340, 700 390 Z" fill="#4ba54f"/>
+  <ellipse cx="700" cy="470" rx="90" ry="18" fill="#cab78d"/>
+  <text x="815" y="350" class="desc">Target: plant_001</text>
+
+  <text x="1105" y="190" class="title">3. Capture Multiple Images</text>
+  <text x="1105" y="225" class="small">Take 8 raw images around the target plant.</text>
+  <rect x="1125" y="260" width="110" height="80" fill="#dfe8d8" stroke="#9eb091"/>
+  <rect x="1250" y="260" width="110" height="80" fill="#dfe8d8" stroke="#9eb091"/>
+  <rect x="1375" y="260" width="110" height="80" fill="#dfe8d8" stroke="#9eb091"/>
+  <rect x="1125" y="355" width="110" height="80" fill="#dfe8d8" stroke="#9eb091"/>
+  <rect x="1250" y="355" width="110" height="80" fill="#dfe8d8" stroke="#9eb091"/>
+  <rect x="1375" y="355" width="110" height="80" fill="#dfe8d8" stroke="#9eb091"/>
+  <text x="1125" y="410" class="desc">8 raw images</text>
+
+  <text x="75" y="530" class="title">4. Pre-filter Raw Images</text>
+  <text x="75" y="565" class="small">Read capture files and prepare for scoring.</text>
+  <text x="95" y="635" class="desc">capture_1.jpg</text>
+  <text x="95" y="670" class="desc">capture_2.jpg</text>
+  <text x="95" y="705" class="desc">...</text>
+
+  <text x="590" y="530" class="title">5. Detect Leaf Candidates</text>
+  <text x="590" y="565" class="small">YOLO hook can identify leaf boxes if weights exist.</text>
+  <rect x="620" y="600" width="220" height="140" fill="#eef6ea" stroke="#b8cfb2"/>
+  <rect x="650" y="630" width="80" height="55" fill="none" stroke="#e14b4b" stroke-width="3"/>
+  <rect x="720" y="650" width="70" height="45" fill="none" stroke="#e14b4b" stroke-width="3"/>
+  <text x="865" y="660" class="desc">leaf_boxes_found = 2</text>
+
+  <text x="1105" y="530" class="title">6. Compute Clarity Score</text>
+  <text x="1105" y="565" class="small">Use Laplacian variance for sharpness ranking.</text>
+  <text x="1125" y="635" class="desc">capture_2.jpg -> 412.8</text>
+  <text x="1125" y="675" class="desc">capture_8.jpg -> 401.6</text>
+  <text x="1125" y="715" class="desc">capture_6.jpg -> 388.0</text>
+
+  <text x="75" y="870" class="title">7. Build Selection Score</text>
+  <text x="75" y="905" class="small">Combine clarity and leaf-box signal.</text>
+  <text x="95" y="975" class="desc">selection_score = focus_score + (leaf_boxes_found x 100)</text>
+  <text x="95" y="1020" class="desc">capture_2 -> 412.8 + 300 = 712.8</text>
+
+  <text x="590" y="870" class="title">8. Rank and Select Best 5-10</text>
+  <text x="590" y="905" class="small">Sort by selection score and keep top outputs.</text>
+  <text x="610" y="975" class="desc">1. capture_2 -> leaf_1.jpg</text>
+  <text x="610" y="1010" class="desc">2. capture_8 -> leaf_2.jpg</text>
+  <text x="610" y="1045" class="desc">...</text>
+
+  <text x="1105" y="870" class="title">9. Save Selected Leaf Images</text>
+  <text x="1105" y="905" class="small">Copy chosen raw images into selected output folder.</text>
+  <text x="1125" y="975" class="desc">selected_leaves/plant_001_leaf_1.jpg</text>
+  <text x="1125" y="1010" class="desc">selected_leaves/plant_001_leaf_2.jpg</text>
+
+  <text x="75" y="1210" class="title">10. Final Phase 1 Output</text>
+  <text x="75" y="1245" class="small">Pass selected image paths to phases 2 and 3.</text>
+  <rect x="95" y="1290" width="660" height="130" rx="16" fill="#eaf3e3" stroke="#93b17a" stroke-width="2"/>
+  <text x="120" y="1345" class="desc">phase_1_output.selected_count = 6</text>
+  <text x="120" y="1385" class="desc">selected_leaf_image_paths = [leaf_1.jpg, leaf_2.jpg, ...]</text>
+
+  <text x="845" y="1210" class="title">Core Logic Summary</text>
+  <text x="845" y="1270" class="desc">move belt -> capture raw images -> detect leaf candidates</text>
+  <text x="845" y="1310" class="desc">score image clarity -> rank -> save top selected leaf images</text>
+  <text x="845" y="1360" class="small">This visual is a mock explanation image, not a real camera capture.</text>
+</svg>

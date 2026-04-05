@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f6f6f6"/>
+  <rect x="40" y="30" width="1120" height="700" rx="24" fill="#ffffff" stroke="#444444" stroke-width="4"/>
+  <text x="70" y="90" font-family="Arial" font-size="34" font-weight="700" fill="#333333">Phase 7 - Execute Spray And Move</text>
+  <text x="70" y="130" font-family="Arial" font-size="20" fill="#666666">Mock output: spray action executed, belt moved to next plant.</text>
+
+  <rect x="70" y="190" width="1060" height="430" rx="16" fill="#fafafa" stroke="#d8d8d8" stroke-width="2"/>
+  <text x="95" y="245" font-family="Arial" font-size="26" font-weight="700" fill="#333333">Execution Log</text>
+  <text x="95" y="300" font-family="Arial" font-size="22" fill="#2f2f2f">plant_id = plant_001</text>
+  <text x="95" y="340" font-family="Arial" font-size="22" fill="#2f2f2f">action = spray_pesticide</text>
+  <text x="95" y="380" font-family="Arial" font-size="22" fill="#2f2f2f">spray_mode = scaled_spray</text>
+  <text x="95" y="420" font-family="Arial" font-size="22" fill="#2f2f2f">applied_output = 10.53 ml</text>
+  <text x="95" y="470" font-family="Arial" font-size="22" fill="#2f2f2f">[1] spray relay ON</text>
+  <text x="95" y="505" font-family="Arial" font-size="22" fill="#2f2f2f">[2] spray pulse 0.60 s</text>
+  <text x="95" y="540" font-family="Arial" font-size="22" fill="#2f2f2f">[3] spray relay OFF</text>
+  <text x="95" y="575" font-family="Arial" font-size="22" fill="#2f2f2f">[4] belt motor forward</text>
+  <text x="95" y="610" font-family="Arial" font-size="22" fill="#2f2f2f">[5] move_next_time 1.00 s</text>
+  <text x="95" y="645" font-family="Arial" font-size="22" font-weight="700" fill="#333333">execution_status = completed</text>
+</svg>

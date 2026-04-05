@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1800" viewBox="0 0 1600 1800">
+  <rect width="1600" height="1800" fill="#fbf7f1"/>
+  <text x="60" y="70" font-family="Arial" font-size="38" font-weight="700" fill="#6b4a1e">Phase 3 - One Leaf Through the Full Algorithm</text>
+  <text x="60" y="110" font-family="Arial" font-size="20" fill="#7a674b">Mock visual showing visible leaf damage estimation for one selected tomato leaf.</text>
+  <defs>
+    <style>
+      .card { fill:#ffffff; stroke:#e1d3c2; stroke-width:2; rx:18; }
+      .title { font-family:Arial; font-size:24px; font-weight:700; fill:#6b4a1e; }
+      .desc { font-family:Arial; font-size:18px; fill:#2f2f2f; }
+      .small { font-family:Arial; font-size:16px; fill:#7a674b; }
+    </style>
+  </defs>
+  <rect class="card" x="50" y="150" width="470" height="300" rx="18"/>
+  <rect class="card" x="565" y="150" width="470" height="300" rx="18"/>
+  <rect class="card" x="1080" y="150" width="470" height="300" rx="18"/>
+  <rect class="card" x="50" y="490" width="470" height="300" rx="18"/>
+  <rect class="card" x="565" y="490" width="470" height="300" rx="18"/>
+  <rect class="card" x="1080" y="490" width="470" height="300" rx="18"/>
+  <rect class="card" x="50" y="830" width="470" height="300" rx="18"/>
+  <rect class="card" x="565" y="830" width="470" height="300" rx="18"/>
+  <rect class="card" x="1080" y="830" width="470" height="300" rx="18"/>
+  <rect class="card" x="50" y="1170" width="730" height="300" rx="18"/>
+  <rect class="card" x="820" y="1170" width="730" height="300" rx="18"/>
+
+  <text x="75" y="190" class="title">1. Selected Leaf Input</text>
+  <text x="75" y="225" class="small">One leaf image from phase 1 enters phase 3.</text>
+  <rect x="95" y="245" width="180" height="150" fill="#d9dfd4" stroke="#9aa88d"/>
+  <path d="M185 375 C120 330, 110 260, 190 250 C260 260, 275 330, 185 375 Z" fill="#49aa57"/>
+  <ellipse cx="185" cy="312" rx="7" ry="58" fill="#d0efaa"/>
+  <circle cx="160" cy="295" r="18" fill="#8c5936"/>
+  <circle cx="214" cy="330" r="14" fill="#8c5936"/>
+
+  <text x="590" y="190" class="title">2. Preprocess Image</text>
+  <text x="590" y="225" class="small">Resize and blur to normalize the input.</text>
+  <text x="610" y="315" class="desc">Target size = 256 x 256</text>
+  <text x="610" y="355" class="desc">Gaussian blur applied</text>
+
+  <text x="1105" y="190" class="title">3. Segment Visible Leaf Region</text>
+  <text x="1105" y="225" class="small">Generate visible leaf mask.</text>
+  <rect x="1125" y="250" width="180" height="150" fill="#111" stroke="#777"/>
+  <path d="M1215 380 C1150 335, 1140 265, 1220 255 C1290 265, 1305 335, 1215 380 Z" fill="#fff"/>
+  <ellipse cx="1215" cy="317" rx="7" ry="58" fill="#fff"/>
+  <text x="1330" y="315" class="desc">leaf_pixels = 28,450</text>
+
+  <text x="75" y="530" class="title">4. Detect Visible Damage Regions</text>
+  <text x="75" y="565" class="small">Brown, pale, yellow, hole-like regions are marked as damage.</text>
+  <rect x="95" y="585" width="200" height="150" fill="#111" stroke="#777"/>
+  <path d="M195 718 C130 672, 120 602, 200 592 C270 602, 285 672, 195 718 Z" fill="#fff"/>
+  <circle cx="170" cy="635" r="18" fill="#ffcc66"/>
+  <circle cx="220" cy="675" r="14" fill="#ffffff"/>
+  <text x="320" y="650" class="desc">damage_pixels = 3,510</text>
+
+  <text x="590" y="530" class="title">5. Compute Damage Percentage</text>
+  <text x="590" y="565" class="small">Use visible damage relative to visible leaf area.</text>
+  <text x="610" y="650" class="desc">damage_percentage = damage_pixels / leaf_pixels</text>
+  <text x="610" y="695" class="desc">= 3510 / 28450 = 0.1234</text>
+
+  <text x="1105" y="530" class="title">6. Save Per-Leaf Result</text>
+  <text x="1105" y="565" class="small">Store result for this one leaf.</text>
+  <text x="1125" y="650" class="desc">leaf_1.jpg -> 12.34%</text>
+
+  <text x="75" y="870" class="title">7. Repeat for All Selected Leaves</text>
+  <text x="75" y="905" class="small">Run the same calculation for all selected leaf images.</text>
+  <text x="95" y="975" class="desc">leaf_1 -> 12.34%</text>
+  <text x="95" y="1010" class="desc">leaf_2 -> 19.00%</text>
+  <text x="95" y="1045" class="desc">leaf_3 -> 15.20%</text>
+  <text x="95" y="1080" class="desc">...</text>
+
+  <text x="590" y="870" class="title">8. Average Per-Leaf Damage</text>
+  <text x="590" y="905" class="small">Average visible damage across selected leaves.</text>
+  <text x="610" y="980" class="desc">average_leaf_damage_percentage = avg(all leaf damage values)</text>
+  <text x="610" y="1020" class="desc">= 0.16</text>
+
+  <text x="1105" y="870" class="title">9. Plant-Level Output</text>
+  <text x="1105" y="905" class="small">Pass average damage to phase 4.</text>
+  <text x="1125" y="980" class="desc">phase_3_output.average_leaf_damage_percentage = 0.16</text>
+
+  <text x="75" y="1210" class="title">10. Core Formula Used</text>
+  <text x="75" y="1270" class="desc">damage_percentage = damage_pixels / leaf_pixels</text>
+  <text x="75" y="1320" class="desc">plant_damage = average(per_leaf_damage_percentages)</text>
+
+  <text x="845" y="1210" class="title">Current Phase-3 Status</text>
+  <text x="845" y="1270" class="desc">This is the current rule-based visible damage algorithm.</text>
+  <text x="845" y="1310" class="desc">The final intended version is still an ML model.</text>
+  <text x="845" y="1360" class="small">This visual is a mock explanation image, not a real model output.</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <rect width="1200" height="760" fill="#f7f4fb"/>
+  <rect x="40" y="30" width="1120" height="700" rx="24" fill="#ffffff" stroke="#53317d" stroke-width="4"/>
+  <text x="70" y="90" font-family="Arial" font-size="34" font-weight="700" fill="#53317d">Phase 4 - Aggregation</text>
+  <text x="70" y="130" font-family="Arial" font-size="20" fill="#67547f">Mock output: weighted infection average using final project ranking weights.</text>
+
+  <rect x="70" y="180" width="1060" height="460" rx="16" fill="#fbf9ff" stroke="#ddd1ee" stroke-width="2"/>
+  <text x="95" y="225" font-family="Arial" font-size="26" font-weight="700" fill="#53317d">Weighted Components</text>
+  <text x="95" y="275" font-family="Arial" font-size="21" fill="#2f2f2f">late_blight      0.16 x 0.2222 = 0.0356</text>
+  <text x="95" y="315" font-family="Arial" font-size="21" fill="#2f2f2f">early_blight     0.24 x 0.1944 = 0.0467</text>
+  <text x="95" y="355" font-family="Arial" font-size="21" fill="#2f2f2f">septoria         0.07 x 0.1667 = 0.0117</text>
+  <text x="95" y="395" font-family="Arial" font-size="21" fill="#2f2f2f">bacterial_spot   0.02 x 0.1389 = 0.0028</text>
+  <text x="95" y="435" font-family="Arial" font-size="21" fill="#2f2f2f">leaf_mold        0.03 x 0.1111 = 0.0033</text>
+  <text x="95" y="475" font-family="Arial" font-size="21" fill="#2f2f2f">yellow_leaf_curl 0.01 x 0.0833 = 0.0008</text>
+  <text x="95" y="515" font-family="Arial" font-size="21" fill="#2f2f2f">mosaic_virus     0.00 x 0.0556 = 0.0000</text>
+  <text x="95" y="555" font-family="Arial" font-size="21" fill="#2f2f2f">damage           0.16 x 0.0278 = 0.0044</text>
+
+  <text x="95" y="620" font-family="Arial" font-size="28" font-weight="700" fill="#53317d">infection_average = 0.1053</text>
+</svg>

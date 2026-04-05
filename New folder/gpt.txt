@@ -1,0 +1,535 @@
+Tomato Plant Belt Spray Pipeline
+Full Project Explanation
+
+1. Project Purpose
+
+This project is a Raspberry Pi based tomato-plant inspection and spray demo system.
+
+The system moves on a belt above a row of tomato plants. At each plant, it:
+- captures leaf images,
+- selects clear leaf images,
+- detects disease on those selected leaves,
+- estimates visible leaf damage,
+- aggregates disease and damage into one infection value,
+- calculates spray amount,
+- selects a spray action,
+- executes spray and then moves to the next plant.
+
+The project is intentionally structured phase by phase so each step can be built, tested, and replaced independently.
+
+2. Hardware Context
+
+Current demo hardware assumptions:
+- Raspberry Pi 4B
+- Raspberry Pi OS Legacy 64-bit Full
+- Raspberry Pi Camera through CSI
+- one DC motor for belt movement
+- L298N motor driver for belt
+- one relay-controlled spray output
+- 5V single-channel optocoupler relay module
+- 12V external power for motor and spray side
+- tomato plants only
+- 2-3 plants for demo
+
+GPIO mapping used in the project:
+- GPIO 17 -> L298N IN1
+- GPIO 27 -> L298N IN2
+- GPIO 22 -> L298N ENA
+- GPIO 23 -> spray relay
+
+Relay behavior used in the project:
+- active-low
+
+Important demo assumptions:
+- common ground between Pi and external supply
+- motor is not powered from Pi directly
+- timed movement is acceptable for demo
+- camera distance from plant target = 2 to 6 inches
+- spray hardware still needs final physical verification
+
+3. Full Workflow
+
+Phase 1. Image acquisition
+Phase 2. Disease detection
+Phase 3. Leaf damage detection
+Phase 4. Aggregation
+Phase 5. Spray calculation
+Phase 6. Spray model selection
+Phase 7. Execute spray and move
+
+4. Why this Project Exists
+
+The goal is not only image classification. The goal is automated, plant-level action.
+
+A normal disease model only says what disease is present.
+This project goes further:
+- observe plant leaves,
+- estimate disease severity,
+- estimate visible physical damage,
+- convert those into one infection value,
+- decide spray quantity,
+- apply action automatically.
+
+That is why the project combines machine learning, image processing, control logic, and hardware execution.
+
+5. Phase-by-Phase Detail
+
+Phase 1. Image Acquisition
+
+Goal:
+- move belt above a plant,
+- capture multiple images,
+- keep the clearest 5-10 leaf images.
+
+Current logic:
+- move belt for a fixed time,
+- capture images from RaspiCam or a test folder,
+- optionally use YOLO detections when weights are available,
+- compute clarity score using Laplacian variance,
+- rank images,
+- keep best selected images.
+
+Why this phase matters:
+- later phases should not run on low-quality or irrelevant images,
+- model quality depends heavily on phase-1 image quality.
+
+Current status:
+- completed
+
+Final demo movement setup used:
+- 3 plants only
+- start -> plant 1 -> plant 2 -> plant 3 -> stop
+- 12V 500 RPM geared motor
+- 2.5 inch wheel
+- practical control speed assumed in code = 5 inches/second
+- default timing:
+  - start to plant 1 = 0.8 s
+  - start to plant 2 = 1.8 s
+  - start to plant 3 = 2.8 s
+
+Phase 2. Disease Detection
+
+Goal:
+- use only the selected clear tomato leaf images,
+- estimate plant-level disease percentages.
+
+Current completed implementation:
+- tomato-only segmentation pipeline
+- PlantSeg tomato subset
+- U-Net model
+- training code
+- inference code
+- plant-level averaging
+
+Dataset used:
+- PlantSeg, tomato subset only
+
+Tomato classes used:
+- tomato_bacterial_leaf_spot
+- tomato_early_blight
+- tomato_late_blight
+- tomato_leaf_mold
+- tomato_mosaic_virus
+- tomato_septoria_leaf_spot
+- tomato_yellow_leaf_curl_virus
+
+Healthy is derived from remaining visible leaf area.
+
+Prepared local dataset counts:
+- train: 460
+- val: 74
+- test: 133
+
+Implemented phase-2 algorithm:
+1. take the 5-10 selected clear leaf images from phase 1
+2. preprocess each image to model size
+3. run U-Net segmentation
+4. predict disease pixels
+5. derive visible leaf mask
+6. compute disease percentage per class:
+   disease_percentage = disease_pixels / visible_leaf_pixels
+7. compute healthy from remaining visible area
+8. average the per-leaf disease percentages
+9. use that as plant-level disease output
+
+Why segmentation was chosen:
+- percentage output is needed,
+- segmentation supports per-class area estimation,
+- plant output is based on averaging selected leaf outputs.
+
+Current status:
+- completed
+
+What was done:
+- dataset archive added locally,
+- tomato subset prepared,
+- masks remapped to class indices,
+- model trained for an initial run,
+- local weights generated,
+- runtime integration completed.
+
+Current note:
+- camera-condition mismatch is intentionally neglected for now.
+
+Phase 3. Leaf Damage Detection
+
+Goal:
+- use the same 5-10 selected clear tomato leaf images from phase 1,
+- estimate visible physical damage percentage,
+- average it across the selected leaves.
+
+Current implementation:
+- rule-based visible damage estimation
+- leaf masking
+- damage-region estimation
+- per-leaf damage percentage
+- average damage percentage
+
+Current algorithm:
+1. preprocess leaf image
+2. segment visible leaf region
+3. estimate visible damage candidates:
+   - eaten holes
+   - edge loss
+   - stressed/dry regions
+4. compute:
+   damage_percentage = damage_pixels / leaf_pixels
+5. average across selected leaves
+
+Current status:
+- completed
+
+Phase 4. Aggregation
+
+Goal:
+- combine phase-2 disease percentages and phase-3 leaf damage into one infection average.
+
+Final ranking order confirmed for this project:
+1. tomato_late_blight
+2. tomato_early_blight
+3. tomato_septoria_leaf_spot
+4. tomato_bacterial_leaf_spot
+5. tomato_leaf_mold
+6. tomato_yellow_leaf_curl_virus
+7. tomato_mosaic_virus
+8. damage
+
+How the numeric weights were derived:
+- use descending rank scores:
+  8, 7, 6, 5, 4, 3, 2, 1
+- total:
+  8 + 7 + 6 + 5 + 4 + 3 + 2 + 1 = 36
+- normalized weight:
+  weight = rank_score / 36
+
+Final weights:
+- tomato_late_blight = 8/36 = 0.2222
+- tomato_early_blight = 7/36 = 0.1944
+- tomato_septoria_leaf_spot = 6/36 = 0.1667
+- tomato_bacterial_leaf_spot = 5/36 = 0.1389
+- tomato_leaf_mold = 4/36 = 0.1111
+- tomato_yellow_leaf_curl_virus = 3/36 = 0.0833
+- tomato_mosaic_virus = 2/36 = 0.0556
+- damage = 1/36 = 0.0278
+
+Aggregation formula:
+infection_average =
+    (tomato_late_blight x 0.2222) +
+    (tomato_early_blight x 0.1944) +
+    (tomato_septoria_leaf_spot x 0.1667) +
+    (tomato_bacterial_leaf_spot x 0.1389) +
+    (tomato_leaf_mold x 0.1111) +
+    (tomato_yellow_leaf_curl_virus x 0.0833) +
+    (tomato_mosaic_virus x 0.0556) +
+    (damage x 0.0278)
+
+Why this phase exists:
+- spray decisions should not depend only on disease label,
+- physical visible damage also matters,
+- the system needs one final severity/infection number.
+
+Current status:
+- completed
+
+Important note:
+- the ranking direction is literature-informed,
+- the exact numeric table is project-defined from confirmed order,
+- not from an official published tomato weighting table.
+
+Phase 5. Spray Calculation
+
+Goal:
+- convert infection_average into a per-plant spray amount.
+
+Original general formula used in code:
+P_plant = P_ref x (I_avg / I_ref) x (D_current / D_ref)
+
+Handwritten note clarified formula more concretely:
+S = S_ref x (I / I_ref) x (D / D_ref)
+
+Extracted reference values from the handwritten page:
+- field area considered = 40,000 m^2
+- total plants = 10,000
+- total spray mixture = 40 liters
+- infection reference = 40%
+
+Reference spray per plant:
+S_ref = (40 x 1000) / 10000 = 4 ml
+
+Reference plant density:
+D_ref = 10000 / 40000 = 2.5 plants/m^2
+
+Therefore the clarified formula becomes:
+S = 4 x (I / 40) x (D / 2.5)
+
+Examples from the note:
+- 10% infection:
+  S = 4 x (10/40) x (2.5/2.5) = 1 ml
+- 50% infection:
+  S = 4 x (50/40) x (2.5/2.5) = 5 ml
+- 75% infection:
+  S = 4 x (75/40) x (2.5/2.5) = 7.5 ml
+- 90% infection:
+  S = 4 x (90/40) x (2.5/2.5) = 9 ml
+
+What the formula assumes constant:
+- tomato crop type
+- pesticide type
+- pesticide concentration
+- nozzle type
+- spray pressure
+- belt/travel speed
+- spray distance
+- row geometry
+- phase-1 image acquisition pattern
+- environment such as wind/humidity/temperature
+- sprayer hardware response
+
+Only changing factors assumed:
+- infection level
+- plant density factor
+
+Why phase 5 still has noted practical gaps:
+- the formula is coded,
+- the assumptions are documented,
+- handbook-based reference constants are documented,
+- oral farmer validation is documented,
+- but agronomic and hardware-side practical validation is still incomplete.
+
+Current status:
+- completed
+
+Additional greenhouse tomato literature notes for phase 5:
+
+Published greenhouse tomato work indicates that the most important factors affecting pesticide spray amount and effectiveness are:
+- disease severity
+- canopy size or canopy volume
+- growth stage
+- leaf area index
+- spray pressure
+- deposition quality and canopy penetration
+- nozzle arrangement
+- travel/application pattern
+
+Useful greenhouse tomato references:
+- Volume application rate adapted to the canopy size in greenhouse tomato crops:
+  https://revistas.usp.br/sa/article/view/78522
+- Deposition analysis of several application volumes of pesticides adapted to the growth of a greenhouse tomato crop:
+  https://www.actahort.org/books/691/691_20.htm
+- Evaluation of the effect of spray pressure in hand-held sprayers in a greenhouse tomato crop:
+  https://www.sciencedirect.com/science/article/abs/pii/S0261219413002056
+- A variable-rate spraying method fusing canopy volume and disease detection to reduce pesticide dosage:
+  https://www.sciencedirect.com/science/article/abs/pii/S0168169925007124
+
+Published numeric values and ranges useful for future formula refinement:
+- canopy heights tested: 0.75 m, 2.25 m, 2.80 m
+- LAI range: 0.68 to 3.16 m^2/m^2
+- spray volume:
+  - 500 to 1500 L/ha for smaller or earlier canopy stages
+  - 1000 to 3000 L/ha for larger or later canopy stages
+- spray pressure values tested:
+  - 2.5, 5, 10, 15 bar
+  - or 1000, 1500, 2000 kPa
+
+How these can guide future reference constants:
+- C_ref can be based on a reference canopy condition such as canopy height around 2.25 m or LAI around 2.0
+- S_ref can be based on a reference spray amount such as 1000 L/ha for a mid-stage canopy
+- I_ref still does not have a strong universal greenhouse tomato percent threshold from published literature
+
+This supports the formula structure:
+S = S_ref x (I / I_ref) x (C / C_ref)
+
+This is a literature-supported refinement direction only. The current implemented code is not changed here.
+
+Phase 6. Spray Model Selection
+
+Goal:
+- choose what kind of spray action to perform.
+
+Current rules implemented:
+- if spray_ml_per_plant <= 10:
+  standard_spray
+- if 10 < spray_ml_per_plant <= 75:
+  scaled_spray
+- if spray_ml_per_plant > 75:
+  spray_color_marking
+  applied_output = 5 ml
+  action = mark_for_removal
+
+Why this phase is needed:
+- not every plant should receive the same treatment,
+- very high severity plants may be marked rather than treated normally.
+
+Current status:
+- completed
+
+Important note:
+- this phase may need re-checking against the newer handwritten phase-5 page,
+- because the updated example values are in ml ranges around 1 to 9,
+- while the current phase-6 thresholds use 10 and 75.
+
+Phase 7. Execute Spray And Move
+
+Goal:
+- execute the chosen action,
+- then move the belt to the next plant.
+
+Current implementation:
+- pump relay activation using active-low behavior
+- belt movement using L298N direction/enable control
+- dry-run support
+- action flow for spray_pesticide or mark_for_removal
+- color-marking case is recorded in output only and does not trigger physical pump spray
+
+Current status:
+- completed
+
+Final movement defaults used:
+- plant 1 to plant 2 = 1.0 s
+- plant 2 to plant 3 = 1.0 s
+- plant 3 to end = 0.8 s
+- belt speed = 0.10
+- spray pulse = 0.7 s
+
+6. Dataset and Model References
+
+Phase 2 disease dataset:
+- PlantSeg Scientific Data article:
+  https://www.nature.com/articles/s41597-025-06513-4
+- PlantSeg Zenodo DOI:
+  https://doi.org/10.5281/zenodo.17719108
+
+Why phase 2 dataset was chosen:
+- segmentation masks available,
+- tomato subset exists,
+- percentage-based disease output is possible,
+- suitable for plant-level averaging over selected leaves.
+
+Phase 3 damage dataset direction:
+- no final dataset fixed yet,
+- project still needs a clear tomato-leaf ML dataset for visible damage,
+- final ML phase still pending.
+
+7. Reference Links Used for Ranking Direction in Phase 4
+
+- MDPI review on important tomato diseases:
+  https://www.mdpi.com/2037-0164/15/1/7
+- Illinois IPM for tomato early blight and Septoria:
+  https://ipm.illinois.edu/diseases/series900/rpd908/
+- Rutgers advisory for tomato late blight:
+  https://plant-pest-advisory.rutgers.edu/vegetable-disease-of-the-week-72213-2-2-2/
+- Horsfall-Barratt severity scale background:
+  https://pubmed.ncbi.nlm.nih.gov/40934413/
+
+These support ranking direction, not the exact numeric weights.
+
+8. Current Strict Status
+
+Using the user's final accepted project rule:
+- completed:
+  phase 1
+  phase 2
+  phase 3
+  phase 4
+  phase 5
+  phase 6
+  phase 7
+
+9. What is Still Missing Overall
+
+No phase is currently left open in the accepted project scope.
+
+10. Project Logic in One Short Form
+
+At each plant:
+1. move belt
+2. capture images
+3. pick best leaf images
+4. estimate disease from selected leaves
+5. estimate visible damage from selected leaves
+6. aggregate into infection_average
+7. calculate spray amount
+8. choose spray action
+9. execute action
+10. move to next plant
+
+11. Engineering Interpretation
+
+This project is a closed-loop plant-level decision system.
+
+Inputs:
+- images of selected leaves
+
+Intermediate outputs:
+- disease percentages
+- damage percentage
+- infection_average
+- spray amount
+- action class
+
+Final output:
+- a physical action on the plant
+
+That is the core reason the project is organized as a pipeline rather than a single model.
+
+12. Latest Project Decision Update
+
+This section is the latest active clarification for the project and should override older intent notes where they conflict.
+
+Phase 3:
+- the project is now using logic for phase 3
+- the project is not currently using an ML model for phase 3
+- the implemented visible-damage logic is now the active intended approach
+
+Phase 3 validation:
+- current practical validation is recorded as oral validation from tomato farmers in Telangana state, India
+
+Phase 5 reference constants:
+- the project now uses the handbook-based reference values for the current operational interpretation
+- P_ref or S_ref = 4 ml per plant
+- I_ref = 40%
+- D_ref = 2.5 plants/m^2
+
+Handbook-based derivation kept in project notes:
+- total spray mixture = 40 liters
+- total plants = 10,000
+- field area = 40,000 m^2
+- S_ref = (40 x 1000) / 10000 = 4 ml
+- D_ref = 10000 / 40000 = 2.5 plants/m^2
+
+Current practical formula interpretation:
+- S = 4 x (I / 40) x (D / 2.5)
+
+Validation note:
+- oral validation from tomato farmers in Telangana state, India is recorded as practical local validation
+- this is not a formal controlled experimental validation
+
+Updated practical status under this latest decision:
+- completed:
+  phase 1
+  phase 2
+  phase 3
+  phase 4
+  phase 5
+  phase 6
+  phase 7
