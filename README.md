@@ -188,9 +188,30 @@ Derived values:
 
 ## Install
 
+For Raspberry Pi OS, use the Pi installer script:
+
+```bash
+chmod +x install_pi.sh
+./install_pi.sh
+```
+
+For a generic Python environment, you can still use:
+
 ```bash
 pip install -r requirements.txt
 ```
+
+## Raspberry Pi notes
+
+- `requirements.txt` is now intentionally light for Raspberry Pi.
+- `OpenCV` and `Picamera2` should be installed from `apt` on the Pi.
+- phase 2 now fails gracefully on the Pi:
+  - if `torch` is missing, the pipeline continues with a safe zero-disease fallback
+  - if the weights file is missing, the pipeline continues with a safe zero-disease fallback
+- to enable real phase-2 disease inference on the Pi, you still need:
+  - `torch`
+  - `torchvision`
+  - `phase_2_disease_detection/models/phase_2_tomato_unet.pt`
 
 ## Additional greenhouse tomato reference notes for phase 5
 
@@ -274,6 +295,13 @@ The launcher:
 - uses the current project defaults
 - saves output JSON in:
   - `test_runs\launcher_runs\<plant_id>\result.json`
+
+On Raspberry Pi OS, use:
+
+```bash
+chmod +x run_all_phases.sh
+./run_all_phases.sh plant_001 1 /home/sai/plant/test_images
+```
 
 ## Run the testing/demo file
 

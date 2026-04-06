@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+  <rect width="1400" height="900" fill="#fbfbf8"/>
+  <text x="700" y="45" text-anchor="middle" font-family="Arial" font-size="30" font-weight="bold" fill="#222">
+    Simple Wiring Diagram
+  </text>
+
+  <rect x="70" y="110" width="300" height="280" rx="18" fill="#e8f1fb" stroke="#4f6fad" stroke-width="3"/>
+  <text x="220" y="150" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#1d3557">Raspberry Pi</text>
+  <text x="100" y="210" font-family="Arial" font-size="20" fill="#1d3557">GPIO 17</text>
+  <text x="100" y="245" font-family="Arial" font-size="20" fill="#1d3557">GPIO 27</text>
+  <text x="100" y="280" font-family="Arial" font-size="20" fill="#1d3557">GPIO 22</text>
+  <text x="100" y="315" font-family="Arial" font-size="20" fill="#1d3557">GPIO 23</text>
+  <text x="100" y="350" font-family="Arial" font-size="20" fill="#1d3557">5V</text>
+  <text x="100" y="385" font-family="Arial" font-size="20" fill="#1d3557">GND</text>
+
+  <rect x="500" y="110" width="280" height="240" rx="18" fill="#fff4e6" stroke="#bc6c25" stroke-width="3"/>
+  <text x="640" y="150" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#6b3f1d">L298N</text>
+  <text x="530" y="205" font-family="Arial" font-size="20" fill="#6b3f1d">IN1</text>
+  <text x="530" y="240" font-family="Arial" font-size="20" fill="#6b3f1d">IN2</text>
+  <text x="530" y="275" font-family="Arial" font-size="20" fill="#6b3f1d">ENA</text>
+  <text x="530" y="310" font-family="Arial" font-size="20" fill="#6b3f1d">GND</text>
+  <text x="650" y="205" font-family="Arial" font-size="20" fill="#6b3f1d">OUT1</text>
+  <text x="650" y="240" font-family="Arial" font-size="20" fill="#6b3f1d">OUT2</text>
+  <text x="650" y="310" font-family="Arial" font-size="20" fill="#6b3f1d">+12V</text>
+
+  <rect x="960" y="110" width="240" height="220" rx="18" fill="#fde2e4" stroke="#c1121f" stroke-width="3"/>
+  <text x="1080" y="150" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#780000">Relay</text>
+  <text x="990" y="205" font-family="Arial" font-size="20" fill="#780000">IN</text>
+  <text x="990" y="240" font-family="Arial" font-size="20" fill="#780000">VCC</text>
+  <text x="990" y="275" font-family="Arial" font-size="20" fill="#780000">GND</text>
+  <text x="1090" y="205" font-family="Arial" font-size="20" fill="#780000">COM</text>
+  <text x="1090" y="240" font-family="Arial" font-size="20" fill="#780000">NO</text>
+
+  <rect x="510" y="470" width="260" height="130" rx="18" fill="#d8f3dc" stroke="#40916c" stroke-width="3"/>
+  <text x="640" y="510" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#1b4332">Motor</text>
+  <text x="550" y="560" font-family="Arial" font-size="20" fill="#1b4332">terminal 1</text>
+  <text x="550" y="590" font-family="Arial" font-size="20" fill="#1b4332">terminal 2</text>
+
+  <rect x="980" y="430" width="220" height="140" rx="18" fill="#f4cccc" stroke="#b85450" stroke-width="3"/>
+  <text x="1090" y="470" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#7a1f1f">Pump</text>
+  <text x="1015" y="520" font-family="Arial" font-size="20" fill="#7a1f1f">+</text>
+  <text x="1015" y="550" font-family="Arial" font-size="20" fill="#7a1f1f">-</text>
+
+  <rect x="70" y="520" width="300" height="180" rx="18" fill="#d9ead3" stroke="#6aa84f" stroke-width="3"/>
+  <text x="220" y="560" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#274e13">12V Supply</text>
+  <text x="100" y="625" font-family="Arial" font-size="22" fill="#274e13">12V +</text>
+  <text x="100" y="665" font-family="Arial" font-size="22" fill="#274e13">12V -</text>
+
+  <rect x="980" y="650" width="240" height="140" rx="18" fill="#eef7e9" stroke="#588157" stroke-width="3"/>
+  <text x="1100" y="690" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#344e41">Nozzle</text>
+  <text x="1010" y="740" font-family="Arial" font-size="20" fill="#344e41">Pump outlet -> nozzle</text>
+
+  <line x1="370" y1="205" x2="500" y2="205" stroke="#bc6c25" stroke-width="4"/>
+  <line x1="370" y1="240" x2="500" y2="240" stroke="#bc6c25" stroke-width="4"/>
+  <line x1="370" y1="275" x2="500" y2="275" stroke="#bc6c25" stroke-width="4"/>
+  <line x1="370" y1="385" x2="500" y2="310" stroke="#555" stroke-width="4"/>
+
+  <line x1="370" y1="315" x2="960" y2="205" stroke="#c1121f" stroke-width="4"/>
+  <line x1="370" y1="350" x2="960" y2="240" stroke="#5c7cfa" stroke-width="4"/>
+  <line x1="370" y1="385" x2="960" y2="275" stroke="#555" stroke-width="4"/>
+
+  <line x1="660" y1="205" x2="660" y2="535" stroke="#40916c" stroke-width="4"/>
+  <line x1="700" y1="240" x2="700" y2="575" stroke="#40916c" stroke-width="4"/>
+
+  <line x1="370" y1="625" x2="650" y2="310" stroke="#2b8a3e" stroke-width="4"/>
+  <line x1="370" y1="665" x2="500" y2="310" stroke="#555" stroke-width="4"/>
+  <line x1="370" y1="625" x2="1080" y2="205" stroke="#2b8a3e" stroke-width="4"/>
+  <line x1="1180" y1="240" x2="1015" y2="520" stroke="#c1121f" stroke-width="4"/>
+  <line x1="370" y1="665" x2="1015" y2="550" stroke="#555" stroke-width="4"/>
+
+  <rect x="70" y="760" width="820" height="95" rx="16" fill="#fff" stroke="#adb5bd" stroke-width="2"/>
+  <text x="480" y="800" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#222">Direct wire list</text>
+  <text x="95" y="835" font-family="Arial" font-size="18" fill="#222">Pi GPIO17->IN1, GPIO27->IN2, GPIO22->ENA, GPIO23->Relay IN, Pi 5V->Relay VCC, Pi GND->Relay GND and L298N GND</text>
+
+</svg>

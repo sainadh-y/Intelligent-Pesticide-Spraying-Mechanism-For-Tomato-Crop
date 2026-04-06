@@ -12,6 +12,19 @@ from phase_2_disease_detection.classes import PLANT_OUTPUT_CLASSES
 DEFAULT_WEIGHTS_PATH = Path(__file__).resolve().parent / "models" / "phase_2_tomato_unet.pt"
 
 
+def _fallback_output(status: str, message: str) -> dict:
+    disease_percentages = {label: 0.0 for label in PLANT_OUTPUT_CLASSES}
+    disease_percentages["healthy"] = 1.0
+    return {
+        "status": status,
+        "model_type": "u_net_segmentation",
+        "message": message,
+        "per_leaf_results": [],
+        "disease_percentages": disease_percentages,
+        "plant_disease_average": 0.0,
+    }
+
+
 def run_phase(context: dict) -> dict:
     selected_leaf_paths = [Path(path) for path in context.get("selected_leaf_image_paths", [])]
     image_size = tuple(context.get("phase_2_image_size", (256, 256)))
@@ -30,7 +43,15 @@ def run_phase(context: dict) -> dict:
         return context
 
     if torch is None:
-        raise RuntimeError("[Phase 2] PyTorch is required for the completed phase 2 implementation.")
+        context["phase_2_output"] = _fallback_output(
+            status="skipped_no_torch",
+            message=(
+                "PyTorch is not available on this system. Phase 2 was skipped and a safe zero-disease fallback "
+                "was used so the remaining phases can continue."
+            ),
+        )
+        print("[Phase 2] PyTorch not available, using fallback zero-disease output")
+        return context
 
     if not weights_path:
         context["phase_2_output"] = {
@@ -46,7 +67,15 @@ def run_phase(context: dict) -> dict:
 
     weights = Path(weights_path)
     if not weights.exists():
-        raise FileNotFoundError(f"[Phase 2] Weights file not found: {weights}")
+        context["phase_2_output"] = _fallback_output(
+            status="skipped_missing_weights",
+            message=(
+                f"Phase 2 weights file was not found at {weights}. A safe zero-disease fallback was used so "
+                "the remaining phases can continue."
+            ),
+        )
+        print(f"[Phase 2] weights not found at {weights}, using fallback zero-disease output")
+        return context
 
     from phase_2_disease_detection.infer import aggregate_predictions, load_model, predict_leaf
 

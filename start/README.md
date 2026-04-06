@@ -6,6 +6,8 @@ This folder contains the project entrypoints.
 
 - `run_pipeline.py`: runs the real scaffold pipeline on the demo setup
 - `test_pipeline.py`: demonstrates each phase with sample inputs, outputs, and explanations
+- `../run_all_phases.sh`: Raspberry Pi one-command launcher
+- `../install_pi.sh`: Raspberry Pi setup helper
 
 ## Demo-oriented defaults
 
@@ -38,3 +40,12 @@ The runner is already aligned to the current demo hardware plan:
 
 - use `run_pipeline.py` for the actual scaffolded pipeline
 - use `test_pipeline.py` to inspect the expected input and output of every phase before datasets are added
+- on Raspberry Pi, `run_all_phases.sh` is the easiest launcher
+
+## Raspberry Pi phase-2 behavior
+
+If PyTorch or the phase-2 weights file are missing on the Raspberry Pi:
+
+- phase 2 does not crash the pipeline anymore
+- it falls back to a safe zero-disease output
+- the remaining phases continue running

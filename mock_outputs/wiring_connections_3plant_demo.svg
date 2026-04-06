@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100">
+  <rect width="1600" height="1100" fill="#f7f7f2"/>
+  <text x="800" y="50" text-anchor="middle" font-family="Arial" font-size="30" font-weight="bold" fill="#1f2933">
+    Raspberry Pi 3-Plant Demo Wiring Diagram
+  </text>
+
+  <rect x="60" y="110" width="420" height="430" rx="18" fill="#e8f1fb" stroke="#4f6fad" stroke-width="3"/>
+  <text x="270" y="150" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#1d3557">Raspberry Pi 4B</text>
+  <text x="100" y="205" font-family="Arial" font-size="20" fill="#1d3557">GPIO 17  -> Motor IN1</text>
+  <text x="100" y="245" font-family="Arial" font-size="20" fill="#1d3557">GPIO 27  -> Motor IN2</text>
+  <text x="100" y="285" font-family="Arial" font-size="20" fill="#1d3557">GPIO 22  -> Motor ENA</text>
+  <text x="100" y="325" font-family="Arial" font-size="20" fill="#1d3557">GPIO 23  -> Relay IN</text>
+  <text x="100" y="365" font-family="Arial" font-size="20" fill="#1d3557">5V       -> Relay VCC</text>
+  <text x="100" y="405" font-family="Arial" font-size="20" fill="#1d3557">GND      -> Relay GND</text>
+  <text x="100" y="445" font-family="Arial" font-size="20" fill="#1d3557">GND      -> L298N GND</text>
+  <rect x="120" y="470" width="300" height="45" rx="10" fill="#d4e6fb" stroke="#4f6fad" stroke-width="2"/>
+  <text x="270" y="500" text-anchor="middle" font-family="Arial" font-size="18" fill="#1d3557">Camera ribbon -> CSI port</text>
+
+  <rect x="560" y="140" width="360" height="300" rx="18" fill="#fff4e6" stroke="#bc6c25" stroke-width="3"/>
+  <text x="740" y="180" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#6b3f1d">L298N Motor Driver</text>
+  <text x="600" y="230" font-family="Arial" font-size="20" fill="#6b3f1d">IN1  <- GPIO 17</text>
+  <text x="600" y="270" font-family="Arial" font-size="20" fill="#6b3f1d">IN2  <- GPIO 27</text>
+  <text x="600" y="310" font-family="Arial" font-size="20" fill="#6b3f1d">ENA  <- GPIO 22</text>
+  <text x="600" y="350" font-family="Arial" font-size="20" fill="#6b3f1d">GND  <- Pi GND and 12V -</text>
+  <text x="600" y="390" font-family="Arial" font-size="20" fill="#6b3f1d">+12V <- 12V PSU +</text>
+
+  <rect x="1040" y="140" width="320" height="220" rx="18" fill="#fde2e4" stroke="#c1121f" stroke-width="3"/>
+  <text x="1200" y="180" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#780000">5V Relay Module</text>
+  <text x="1080" y="230" font-family="Arial" font-size="20" fill="#780000">IN   <- GPIO 23</text>
+  <text x="1080" y="270" font-family="Arial" font-size="20" fill="#780000">VCC  <- Pi 5V</text>
+  <text x="1080" y="310" font-family="Arial" font-size="20" fill="#780000">GND  <- Pi GND</text>
+  <text x="1080" y="340" font-family="Arial" font-size="18" fill="#780000">Relay mode: active-low</text>
+
+  <rect x="1050" y="430" width="310" height="230" rx="18" fill="#f4cccc" stroke="#b85450" stroke-width="3"/>
+  <text x="1205" y="470" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#7a1f1f">12V Pump</text>
+  <text x="1090" y="525" font-family="Arial" font-size="20" fill="#7a1f1f">Pump + <- Relay NO</text>
+  <text x="1090" y="565" font-family="Arial" font-size="20" fill="#7a1f1f">Pump - <- 12V PSU -</text>
+  <text x="1090" y="605" font-family="Arial" font-size="20" fill="#7a1f1f">Outlet -> Nozzle</text>
+  <text x="1090" y="645" font-family="Arial" font-size="20" fill="#7a1f1f">Inlet  <- Tank tube</text>
+
+  <rect x="550" y="520" width="380" height="170" rx="18" fill="#d8f3dc" stroke="#40916c" stroke-width="3"/>
+  <text x="740" y="560" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#1b4332">12V Geared Motor</text>
+  <text x="590" y="610" font-family="Arial" font-size="20" fill="#1b4332">Motor terminal 1 <- L298N OUT1</text>
+  <text x="590" y="650" font-family="Arial" font-size="20" fill="#1b4332">Motor terminal 2 <- L298N OUT2</text>
+
+  <rect x="90" y="650" width="380" height="170" rx="18" fill="#d9ead3" stroke="#6aa84f" stroke-width="3"/>
+  <text x="280" y="690" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#274e13">12V Power Supply</text>
+  <text x="130" y="740" font-family="Arial" font-size="20" fill="#274e13">12V + -> L298N +12V</text>
+  <text x="130" y="780" font-family="Arial" font-size="20" fill="#274e13">12V + -> Relay COM</text>
+  <text x="130" y="820" font-family="Arial" font-size="20" fill="#274e13">12V - -> Common GND</text>
+
+  <rect x="1040" y="750" width="320" height="220" rx="18" fill="#eef7e9" stroke="#588157" stroke-width="3"/>
+  <text x="1200" y="790" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#344e41">Tank and Nozzle</text>
+  <text x="1080" y="845" font-family="Arial" font-size="20" fill="#344e41">Tank -> tube -> pump inlet</text>
+  <text x="1080" y="885" font-family="Arial" font-size="20" fill="#344e41">Pump outlet -> tube -> nozzle</text>
+  <text x="1080" y="925" font-family="Arial" font-size="20" fill="#344e41">Nozzle mounted near Pi Camera</text>
+
+  <rect x="560" y="760" width="360" height="170" rx="18" fill="#ffffff" stroke="#6c757d" stroke-width="2"/>
+  <text x="740" y="800" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#212529">Connection Notes</text>
+  <text x="590" y="845" font-family="Arial" font-size="18" fill="#212529">- Use common ground everywhere</text>
+  <text x="590" y="875" font-family="Arial" font-size="18" fill="#212529">- Pi has its own normal power supply</text>
+  <text x="590" y="905" font-family="Arial" font-size="18" fill="#212529">- Do not power motor from Pi</text>
+
+  <line x1="480" y1="205" x2="560" y2="230" stroke="#bc6c25" stroke-width="4" marker-end="url(#arrowOrange)"/>
+  <line x1="480" y1="245" x2="560" y2="270" stroke="#bc6c25" stroke-width="4" marker-end="url(#arrowOrange)"/>
+  <line x1="480" y1="285" x2="560" y2="310" stroke="#bc6c25" stroke-width="4" marker-end="url(#arrowOrange)"/>
+  <line x1="480" y1="325" x2="1040" y2="230" stroke="#c1121f" stroke-width="4" marker-end="url(#arrowRed)"/>
+  <line x1="480" y1="365" x2="1040" y2="270" stroke="#5c7cfa" stroke-width="4" marker-end="url(#arrowBlue)"/>
+  <line x1="480" y1="405" x2="1040" y2="310" stroke="#495057" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <line x1="480" y1="445" x2="560" y2="350" stroke="#495057" stroke-width="4" marker-end="url(#arrowGray)"/>
+
+  <line x1="470" y1="720" x2="560" y2="390" stroke="#2b8a3e" stroke-width="4" marker-end="url(#arrowGreen)"/>
+  <line x1="470" y1="760" x2="1040" y2="780" stroke="#2b8a3e" stroke-width="4" marker-end="url(#arrowGreen)"/>
+  <line x1="470" y1="800" x2="560" y2="350" stroke="#495057" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <line x1="470" y1="780" x2="1040" y2="525" stroke="#2b8a3e" stroke-width="4" marker-end="url(#arrowGreen)"/>
+
+  <line x1="920" y1="610" x2="1050" y2="610" stroke="#bc6c25" stroke-width="4" marker-end="url(#arrowOrange)"/>
+  <line x1="920" y1="650" x2="1050" y2="565" stroke="#bc6c25" stroke-width="4" marker-end="url(#arrowOrange)"/>
+
+  <line x1="1360" y1="525" x2="1360" y2="360" stroke="#c1121f" stroke-width="4" marker-end="url(#arrowRed)"/>
+  <line x1="1040" y1="780" x2="1360" y2="645" stroke="#40916c" stroke-width="4" marker-end="url(#arrowGreen)"/>
+
+  <line x1="470" y1="500" x2="470" y2="500" stroke="#4f6fad" stroke-width="4"/>
+  <path d="M420 500 C500 560, 1000 720, 1100 900" fill="none" stroke="#4f6fad" stroke-width="3" stroke-dasharray="8 8"/>
+  <text x="520" y="545" font-family="Arial" font-size="17" fill="#4f6fad">Pi Camera ribbon to CSI port</text>
+
+  <rect x="90" y="900" width="760" height="120" rx="18" fill="#fff" stroke="#adb5bd" stroke-width="2"/>
+  <text x="470" y="940" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#212529">Power-side relay switching</text>
+  <text x="120" y="980" font-family="Arial" font-size="18" fill="#212529">12V PSU + -> Relay COM -> Relay NO -> Pump +</text>
+  <text x="120" y="1010" font-family="Arial" font-size="18" fill="#212529">Pump - -> 12V PSU -</text>
+
+  <defs>
+    <marker id="arrowOrange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#bc6c25"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#c1121f"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#5c7cfa"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#495057"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#2b8a3e"/>
+    </marker>
+  </defs>
+</svg>
