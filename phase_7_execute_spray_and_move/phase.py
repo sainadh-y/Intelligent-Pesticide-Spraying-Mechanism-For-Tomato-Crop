@@ -8,6 +8,11 @@ except ImportError:  # pragma: no cover
     OutputDevice = None
     PWMOutputDevice = None
 
+try:
+    from gpiozero.exc import PinPWMUnsupported
+except ImportError:  # pragma: no cover
+    PinPWMUnsupported = Exception
+
 
 def _pulse(device: OutputDevice | None, duration: float, label: str, dry_run: bool) -> None:
     if dry_run or device is None:
@@ -35,10 +40,7 @@ def run_phase(context: dict) -> dict:
         )
         belt_in1 = OutputDevice(context["belt_in1_pin"]) if context.get("belt_in1_pin") is not None else None
         belt_in2 = OutputDevice(context["belt_in2_pin"]) if context.get("belt_in2_pin") is not None else None
-        if context.get("belt_ena_pin") is not None and PWMOutputDevice is not None:
-            belt_ena = PWMOutputDevice(context["belt_ena_pin"])
-        elif context.get("belt_ena_pin") is not None:
-            belt_ena = OutputDevice(context["belt_ena_pin"])
+        belt_ena = _create_enable_device(context.get("belt_ena_pin"))
 
     spray_pulse = float(context.get("spray_pulse", 0.6))
     spray_action = context.get("spray_action", "spray_pesticide")
@@ -85,6 +87,17 @@ def run_phase(context: dict) -> dict:
     }
 
     return context
+
+
+def _create_enable_device(pin: int | None) -> OutputDevice | PWMOutputDevice | None:
+    if pin is None or OutputDevice is None:
+        return None
+    if PWMOutputDevice is not None:
+        try:
+            return PWMOutputDevice(pin)
+        except PinPWMUnsupported:
+            print(f"[Phase 7] PWM unsupported on GPIO{pin}, using simple enable output instead")
+    return OutputDevice(pin)
 
 
 def _next_move_duration(context: dict, plant_index: int) -> float:

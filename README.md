@@ -193,6 +193,7 @@ For Raspberry Pi OS, use the Pi installer script:
 ```bash
 chmod +x install_pi.sh
 ./install_pi.sh
+source .venv/bin/activate
 ```
 
 For a generic Python environment, you can still use:
@@ -205,6 +206,7 @@ pip install -r requirements.txt
 
 - `requirements.txt` is now intentionally light for Raspberry Pi.
 - `OpenCV` and `Picamera2` should be installed from `apt` on the Pi.
+- `install_pi.sh` now creates `.venv` with `--system-site-packages` so Raspberry Pi system GPIO/camera packages are visible inside the virtual environment.
 - phase 2 now fails gracefully on the Pi:
   - if `torch` is missing, the pipeline continues with a safe zero-disease fallback
   - if the weights file is missing, the pipeline continues with a safe zero-disease fallback
@@ -300,6 +302,7 @@ On Raspberry Pi OS, use:
 
 ```bash
 chmod +x run_all_phases.sh
+source .venv/bin/activate
 ./run_all_phases.sh plant_001 1 /home/sai/plant/test_images
 ```
 

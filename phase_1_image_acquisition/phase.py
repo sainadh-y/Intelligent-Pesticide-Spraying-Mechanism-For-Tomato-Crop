@@ -21,6 +21,11 @@ except ImportError:  # pragma: no cover
     PWMOutputDevice = None
 
 try:
+    from gpiozero.exc import PinPWMUnsupported
+except ImportError:  # pragma: no cover
+    PinPWMUnsupported = Exception
+
+try:
     from ultralytics import YOLO
 except ImportError:  # pragma: no cover
     YOLO = None
@@ -81,6 +86,17 @@ def _plant_position_duration(context: dict) -> tuple[float, str]:
     duration = timings.get(plant_index, float(context.get("belt_move_time", 0.8)))
     label = labels.get(plant_index, f"start to plant {plant_index}")
     return duration, label
+
+
+def _create_enable_device(pin: int | None) -> OutputDevice | PWMOutputDevice | None:
+    if pin is None or OutputDevice is None:
+        return None
+    if PWMOutputDevice is not None:
+        try:
+            return PWMOutputDevice(pin)
+        except PinPWMUnsupported:
+            print(f"[Phase 1] PWM unsupported on GPIO{pin}, using simple enable output instead")
+    return OutputDevice(pin)
 
 
 def _focus_score(image_path: Path) -> float:
@@ -181,10 +197,7 @@ def run_phase(context: dict) -> dict:
     if not dry_run:
         belt_in1 = OutputDevice(context["belt_in1_pin"]) if context.get("belt_in1_pin") is not None else None
         belt_in2 = OutputDevice(context["belt_in2_pin"]) if context.get("belt_in2_pin") is not None else None
-        if context.get("belt_ena_pin") is not None and PWMOutputDevice is not None:
-            belt_ena = PWMOutputDevice(context["belt_ena_pin"])
-        elif context.get("belt_ena_pin") is not None:
-            belt_ena = OutputDevice(context["belt_ena_pin"])
+        belt_ena = _create_enable_device(context.get("belt_ena_pin"))
 
     belt_speed = float(context.get("belt_speed", 0.10))
     move_duration, move_label = _plant_position_duration(context)
