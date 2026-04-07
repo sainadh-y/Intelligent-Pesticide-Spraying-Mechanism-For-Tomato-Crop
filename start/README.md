@@ -41,6 +41,10 @@ The runner is already aligned to the current demo hardware plan:
 - use `run_pipeline.py` for the actual scaffolded pipeline
 - use `test_pipeline.py` to inspect the expected input and output of every phase before datasets are added
 - on Raspberry Pi, `run_all_phases.sh` is the easiest launcher
+- for no-camera 3-plant testing, the repo now includes fixed sample plant images in:
+  - `captures/test_inputs/plant_001_BLK_3_1002_PL009_NH.JPG`
+  - `captures/test_inputs/plant_002_BLK_3_1002_PL039_H.JPG`
+  - `captures/test_inputs/plant_003_BLK_3_1002_PL031_H.JPG`
 
 ## Raspberry Pi phase-2 behavior
 

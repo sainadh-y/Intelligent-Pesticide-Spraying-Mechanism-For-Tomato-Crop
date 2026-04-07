@@ -1,11 +1,12 @@
 __pycache__/
 *.pyc
 
-captures/
+captures/*
+!captures/test_inputs/
+!captures/test_inputs/*.JPG
 selected_leaves/
 test_runs/
 
 phase_2_disease_detection/plantseg.zip
 phase_2_disease_detection/phase_2_dataset/
 phase_2_disease_detection/models/
-
