@@ -6,7 +6,7 @@ def run_phase(context: dict) -> dict:
 
     if spray_ml <= 10:
         spray_mode = "standard_spray"
-        applied_output = 10.0
+        applied_output = spray_ml
         action = "spray_pesticide"
     elif spray_ml <= 75:
         spray_mode = "scaled_spray"

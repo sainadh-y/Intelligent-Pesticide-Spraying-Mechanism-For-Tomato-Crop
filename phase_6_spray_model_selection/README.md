@@ -12,9 +12,14 @@ Choose the spray action based on the calculated `P_plant` value from phase 5.
 
 ## Important rule
 
-For plants at or below 10 percent infection, treat them as the minimum standard spray level.
+For plants at or below the standard threshold, keep the spray mode as `standard_spray`.
 
-That means the practical spray output is fixed to `10` in this range even if the formula gives a lower value.
+The applied output now stays equal to the phase-5 calculated spray amount instead of being forced to `10`.
+
+So:
+
+- `standard_spray` means the standard action category
+- `applied_output` still reflects the calculated amount from phase 5
 
 ## Output
 

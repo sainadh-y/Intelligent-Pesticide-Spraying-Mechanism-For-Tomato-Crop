@@ -33,6 +33,12 @@ BCM numbering:
 6. Model selection chooses the spray mode
 7. Spray executes and the belt moves to the next plant
 
+## Phase 6 current note
+
+- `standard_spray` is only the action category
+- phase 6 now keeps `applied_output` equal to the phase-5 calculated amount even when the mode is `standard_spray`
+- the older fixed `10.0` standard output is no longer used
+
 ## Strict completion status
 
 Using your rule that even one missing item means the phase is not completed:
