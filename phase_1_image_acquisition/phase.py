@@ -67,16 +67,16 @@ def _run_belt_forward(
 def _plant_position_duration(context: dict) -> tuple[float, str]:
     plant_index = int(context.get("plant_index", 1))
     timings = {
-        1: float(context.get("start_to_plant1_time", 0.8)),
-        2: float(context.get("start_to_plant2_time", 1.8)),
-        3: float(context.get("start_to_plant3_time", 2.8)),
+        1: float(context.get("start_to_plant1_time", 5.0)),
+        2: float(context.get("start_to_plant2_time", 5.0)),
+        3: float(context.get("start_to_plant3_time", 5.0)),
     }
     labels = {
         1: "start to plant 1",
         2: "start to plant 2",
         3: "start to plant 3",
     }
-    duration = timings.get(plant_index, float(context.get("belt_move_time", 0.8)))
+    duration = timings.get(plant_index, float(context.get("belt_move_time", 5.0)))
     label = labels.get(plant_index, f"start to plant {plant_index}")
     return duration, label
 

@@ -118,11 +118,11 @@ def _create_enable_device(pin: int | None) -> OutputDevice | PWMOutputDevice | N
 
 def _next_move_duration(context: dict, plant_index: int) -> float:
     next_map = {
-        1: float(context.get("plant1_to_plant2_time", 1.0)),
-        2: float(context.get("plant2_to_plant3_time", 1.0)),
-        3: float(context.get("plant3_to_end_time", 0.8)),
+        1: float(context.get("plant1_to_plant2_time", 5.0)),
+        2: float(context.get("plant2_to_plant3_time", 5.0)),
+        3: float(context.get("plant3_to_end_time", 5.0)),
     }
-    return next_map.get(plant_index, float(context.get("move_next_time", 1.0)))
+    return next_map.get(plant_index, float(context.get("move_next_time", 5.0)))
 
 
 def _run_belt_forward(
