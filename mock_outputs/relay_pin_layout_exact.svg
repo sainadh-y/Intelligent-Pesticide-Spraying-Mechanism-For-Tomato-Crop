@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850">
+  <rect width="1400" height="850" fill="#fafaf7"/>
+  <text x="700" y="50" text-anchor="middle" font-family="Arial" font-size="30" font-weight="bold" fill="#202124">
+    Exact Relay Pin Layout and Wiring
+  </text>
+
+  <rect x="420" y="120" width="560" height="340" rx="22" fill="#1f5f8b" stroke="#0b3954" stroke-width="4"/>
+  <text x="700" y="165" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#ffffff">5V Relay Module</text>
+
+  <rect x="470" y="200" width="70" height="180" rx="12" fill="#d9ead3" stroke="#6aa84f" stroke-width="3"/>
+  <circle cx="505" cy="235" r="15" fill="#1d3557"/>
+  <circle cx="505" cy="290" r="15" fill="#f4d35e"/>
+  <circle cx="505" cy="345" r="15" fill="#1d3557"/>
+  <text x="560" y="242" font-family="Arial" font-size="22" fill="#ffffff" font-weight="bold">NO</text>
+  <text x="560" y="297" font-family="Arial" font-size="22" fill="#ffffff" font-weight="bold">COM</text>
+  <text x="560" y="352" font-family="Arial" font-size="22" fill="#ffffff" font-weight="bold">NC</text>
+
+  <rect x="860" y="210" width="55" height="125" rx="8" fill="#222" stroke="#111" stroke-width="2"/>
+  <circle cx="888" cy="235" r="9" fill="#36c96b"/>
+  <circle cx="888" cy="272" r="9" fill="#ef4444"/>
+  <circle cx="888" cy="309" r="9" fill="#111111"/>
+  <text x="830" y="240" text-anchor="end" font-family="Arial" font-size="20" fill="#ffffff" font-weight="bold">IN</text>
+  <text x="830" y="277" text-anchor="end" font-family="Arial" font-size="20" fill="#ffffff" font-weight="bold">VCC</text>
+  <text x="830" y="314" text-anchor="end" font-family="Arial" font-size="20" fill="#ffffff" font-weight="bold">GND</text>
+
+  <rect x="80" y="150" width="240" height="250" rx="18" fill="#e8f1fb" stroke="#4f6fad" stroke-width="3"/>
+  <text x="200" y="190" text-anchor="middle" font-family="Arial" font-size="25" font-weight="bold" fill="#1d3557">Raspberry Pi</text>
+  <text x="110" y="255" font-family="Arial" font-size="22" fill="#1d3557">GPIO 23 -> IN</text>
+  <text x="110" y="305" font-family="Arial" font-size="22" fill="#1d3557">5V -> VCC</text>
+  <text x="110" y="355" font-family="Arial" font-size="22" fill="#1d3557">GND -> GND</text>
+
+  <rect x="1040" y="150" width="270" height="250" rx="18" fill="#d9ead3" stroke="#6aa84f" stroke-width="3"/>
+  <text x="1175" y="190" text-anchor="middle" font-family="Arial" font-size="25" font-weight="bold" fill="#274e13">12V Pump Side</text>
+  <text x="1070" y="255" font-family="Arial" font-size="22" fill="#274e13">12V + -> COM</text>
+  <text x="1070" y="305" font-family="Arial" font-size="22" fill="#274e13">NO -> Pump +</text>
+  <text x="1070" y="355" font-family="Arial" font-size="22" fill="#274e13">Pump - -> 12V -</text>
+
+  <line x1="320" y1="248" x2="860" y2="235" stroke="#36c96b" stroke-width="5" marker-end="url(#arrowGreen)"/>
+  <line x1="320" y1="298" x2="860" y2="272" stroke="#ef4444" stroke-width="5" marker-end="url(#arrowRed)"/>
+  <line x1="320" y1="348" x2="860" y2="309" stroke="#111111" stroke-width="5" marker-end="url(#arrowBlack)"/>
+
+  <line x1="1040" y1="248" x2="520" y2="290" stroke="#d4a017" stroke-width="5" marker-end="url(#arrowYellow)"/>
+  <line x1="1040" y1="298" x2="520" y2="235" stroke="#2563eb" stroke-width="5" marker-end="url(#arrowBlue)"/>
+
+  <rect x="120" y="500" width="1160" height="250" rx="20" fill="#ffffff" stroke="#c7c7c7" stroke-width="2"/>
+  <text x="700" y="545" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#202124">How To Connect This Exact Relay</text>
+
+  <text x="160" y="605" font-family="Arial" font-size="22" fill="#202124">1. Raspberry Pi `GPIO 23` -> relay `IN`</text>
+  <text x="160" y="645" font-family="Arial" font-size="22" fill="#202124">2. Raspberry Pi `5V` -> relay `VCC`</text>
+  <text x="160" y="685" font-family="Arial" font-size="22" fill="#202124">3. Raspberry Pi `GND` -> relay `GND`</text>
+
+  <text x="760" y="605" font-family="Arial" font-size="22" fill="#202124">4. `12V +` supply -> relay `COM`</text>
+  <text x="760" y="645" font-family="Arial" font-size="22" fill="#202124">5. relay `NO` -> pump positive</text>
+  <text x="760" y="685" font-family="Arial" font-size="22" fill="#202124">6. pump negative -> `12V -` supply</text>
+
+  <text x="700" y="725" text-anchor="middle" font-family="Arial" font-size="20" fill="#444">Do not use `NC` for your current demo wiring.</text>
+
+  <defs>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#36c96b"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#ef4444"/>
+    </marker>
+    <marker id="arrowBlack" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#111111"/>
+    </marker>
+    <marker id="arrowYellow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#d4a017"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+</svg>

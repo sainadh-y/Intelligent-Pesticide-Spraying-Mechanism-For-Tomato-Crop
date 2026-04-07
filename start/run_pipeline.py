@@ -48,7 +48,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--belt-speed", type=float, default=0.10, help="Demo belt speed as 0.0 to 1.0.")
     parser.add_argument("--spray-pin", type=int, default=23, help="GPIO pin controlling spray relay.")
     parser.add_argument("--relay-active-high", action="store_true", help="Use active-high relay behavior instead of the default active-low behavior.")
-    parser.add_argument("--yolo-weights", type=Path, help="Optional YOLO weights path for leaf detection.")
     parser.add_argument("--input-image-dir", type=Path, help="Optional folder of existing images for testing phase 1.")
     parser.add_argument("--captures-dir", type=Path, default=ROOT_DIR / "captures", help="Folder for raw captures.")
     parser.add_argument("--selected-dir", type=Path, default=ROOT_DIR / "selected_leaves", help="Folder for selected leaf images.")

@@ -1,13 +1,11 @@
-# Mock Phase Outputs
+# Hardware And Wiring Visuals
 
-This folder contains mock image outputs for each project phase.
+This folder now keeps only the current hardware and wiring diagrams that are still useful for the 3-plant demo.
 
-Files:
+Files kept:
 
-- `phase_1_image_acquisition.svg`
-- `phase_2_disease_detection.svg`
-- `phase_3_leaf_damage_detection.svg`
-- `phase_4_aggregation.svg`
-- `phase_5_spray_calculation.svg`
-- `phase_6_spray_model_selection.svg`
-- `phase_7_execute_spray_and_move.svg`
+- `architecture_connection_diagram.svg`
+- `hardware_3plant_setup.svg`
+- `relay_pin_layout_exact.svg`
+- `wiring_connections_3plant_demo.svg`
+- `wiring_connections_simple.svg`

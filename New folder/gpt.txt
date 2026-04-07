@@ -84,7 +84,7 @@ Goal:
 Current logic:
 - move belt for a fixed time,
 - capture images from RaspiCam or a test folder,
-- optionally use YOLO detections when weights are available,
+- use fixed manual leaf boxes for the no-camera 3-plant test set, or clarity scoring for direct image selection,
 - compute clarity score using Laplacian variance,
 - rank images,
 - keep best selected images.

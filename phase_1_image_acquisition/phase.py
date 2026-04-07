@@ -23,11 +23,6 @@ try:
 except ImportError:  # pragma: no cover
     PinPWMUnsupported = Exception
 
-try:
-    from ultralytics import YOLO
-except ImportError:  # pragma: no cover
-    YOLO = None
-
 
 def _pulse(device: OutputDevice | None, duration: float, label: str, dry_run: bool) -> None:
     if dry_run or device is None:
@@ -155,20 +150,6 @@ def _capture_images(context: dict) -> list[Path]:
     return captured
 
 
-def _detect_leaf_boxes(image_path: Path, yolo_weights: Path | None) -> list[tuple[int, int, int, int]]:
-    if YOLO is None or yolo_weights is None or not yolo_weights.exists():
-        return []
-
-    model = YOLO(str(yolo_weights))
-    results = model.predict(source=str(image_path), verbose=False)
-    boxes: list[tuple[int, int, int, int]] = []
-    for result in results:
-        for box in result.boxes.xyxy.tolist():
-            x1, y1, x2, y2 = [int(value) for value in box]
-            boxes.append((x1, y1, x2, y2))
-    return boxes
-
-
 def _load_leaf_box_manifest(input_dir: Path | None) -> dict:
     if input_dir is None:
         return {}
@@ -247,7 +228,6 @@ def _select_manual_leaf_crops(raw_images: list[Path], context: dict, manifest: d
 def _select_best_images(raw_images: list[Path], context: dict) -> list[dict]:
     selected_dir = Path(context["selected_dir"])
     selected_dir.mkdir(parents=True, exist_ok=True)
-    yolo_weights = context.get("yolo_weights")
     selected_count = int(context.get("selected_leaves", 6))
     input_dir = Path(context["input_image_dir"]) if context.get("input_image_dir") else None
 
@@ -257,7 +237,6 @@ def _select_best_images(raw_images: list[Path], context: dict) -> list[dict]:
 
     scored = []
     for image_path in raw_images:
-        boxes = _detect_leaf_boxes(image_path, Path(yolo_weights)) if yolo_weights else []
         score = _focus_score(image_path)
         scored.append(
             {
@@ -265,8 +244,8 @@ def _select_best_images(raw_images: list[Path], context: dict) -> list[dict]:
                 "source_image_path": str(image_path.resolve()),
                 "source_image_name": image_path.name,
                 "focus_score": round(score, 2),
-                "leaf_boxes_found": len(boxes),
-                "selection_score": round(score + (len(boxes) * 100.0), 2),
+                "leaf_boxes_found": 0,
+                "selection_score": round(score, 2),
             }
         )
 
@@ -329,7 +308,7 @@ def explain_phase() -> dict:
         "title": "Image Acquisition",
         "description": (
             "The belt moves above a tomato plant, multiple images are captured, and the best leaf images "
-            "are selected using clarity scoring and optional YOLO leaf detections."
+            "are selected using clarity scoring or fixed manual leaf boxes for the no-camera 3-plant test set."
         ),
         "sample_input": {
             "plant_id": "plant_001",
@@ -342,7 +321,6 @@ def explain_phase() -> dict:
             "belt_speed": 0.10,
             "start_to_plant1_time": 0.8,
             "capture_delay": 1.5,
-            "yolo_weights": "models/leaf_detector.pt",
         },
         "sample_output": {
             "movement_to_plant_seconds": 0.8,

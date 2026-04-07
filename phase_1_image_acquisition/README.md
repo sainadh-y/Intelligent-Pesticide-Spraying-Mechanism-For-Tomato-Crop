@@ -16,7 +16,7 @@ Completed.
 - `2.5 inch` drive wheel
 - practical control speed assumed in code: `5 inches/second`
 - timed stopping used for plant positioning
-- current leaf selection uses clarity scoring, with YOLO kept only as an optional hook
+- current leaf selection uses clarity scoring or fixed manual leaf boxes for the 3-plant no-camera test set
 
 ## Demo hardware target
 
@@ -33,7 +33,6 @@ Completed.
 - uses L298N-style `IN1/IN2/ENA` belt control
 - uses plant-index based movement timing for the 3-plant demo
 - computes focus score using Laplacian variance
-- has a YOLO hook that can be connected later with custom weights
 - for the fixed no-camera 3-plant test set, supports manual leaf-box extraction from `captures/test_inputs/leaf_boxes_manifest.json`
 
 ## 3-plant timing defaults

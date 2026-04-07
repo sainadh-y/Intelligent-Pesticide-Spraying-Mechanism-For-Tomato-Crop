@@ -9,7 +9,7 @@ set "PLANT_INDEX=%~2"
 if "%PLANT_INDEX%"=="" set "PLANT_INDEX=1"
 
 set "INPUT_IMAGE_DIR=%~3"
-if "%INPUT_IMAGE_DIR%"=="" set "INPUT_IMAGE_DIR=%ROOT%test_runs\BLK_3_1002_PL031_H_refined\selected_leaves"
+if "%INPUT_IMAGE_DIR%"=="" set "INPUT_IMAGE_DIR=%ROOT%captures\test_inputs"
 
 set "OUTPUT_DIR=%ROOT%test_runs\launcher_runs\%PLANT_ID%"
 if not exist "%OUTPUT_DIR%" mkdir "%OUTPUT_DIR%"
