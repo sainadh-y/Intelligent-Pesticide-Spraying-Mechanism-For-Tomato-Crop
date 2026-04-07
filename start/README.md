@@ -21,14 +21,15 @@ The runner is already aligned to the current demo hardware plan:
 - default relay behavior = `active-low`
 - 3-plant movement flow: `start -> plant 1 -> plant 2 -> plant 3 -> stop`
 - default movement timings:
-  - `0.8 s` start to plant 1
-  - `1.8 s` start to plant 2
-  - `2.8 s` start to plant 3
-  - `1.0 s` plant 1 to plant 2
-  - `1.0 s` plant 2 to plant 3
-  - `0.8 s` plant 3 to stop
+  - `5.0 s` start to plant 1
+  - `5.0 s` start to plant 2
+  - `5.0 s` start to plant 3
+  - `5.0 s` plant 1 to plant 2
+  - `5.0 s` plant 2 to plant 3
+  - `5.0 s` plant 3 to stop
 - default belt speed = `0.10`
 - default spray pulse = `0.7 s`
+- base spray-time calibration = `1.0 ml`
 - camera distance target = `2 to 6 inches`
 - color-marking case is reported in output only and does not trigger physical spray
 - handbook defaults for phase 5:

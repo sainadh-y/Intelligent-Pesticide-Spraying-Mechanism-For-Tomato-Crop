@@ -195,6 +195,13 @@ So the active handbook-interpreted form is:
 S = 4 x (I / 40) x (D / 2.5)
 ```
 
+Worked example for the current project:
+
+```text
+If I = 10% and D = 2.5,
+S = 4 x (10 / 40) x (2.5 / 2.5) = 1 ml
+```
+
 ## Validation note
 
 Current practical validation recorded for this phase:

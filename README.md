@@ -127,14 +127,15 @@ Plant spacing used:
 
 Default timing values used in the code:
 
-- start to plant 1 = `0.8 s`
-- start to plant 2 = `1.8 s`
-- start to plant 3 = `2.8 s`
-- plant 1 to plant 2 = `1.0 s`
-- plant 2 to plant 3 = `1.0 s`
-- plant 3 to stop = `0.8 s`
+- start to plant 1 = `5.0 s`
+- start to plant 2 = `5.0 s`
+- start to plant 3 = `5.0 s`
+- plant 1 to plant 2 = `5.0 s`
+- plant 2 to plant 3 = `5.0 s`
+- plant 3 to stop = `5.0 s`
 - belt speed = `0.10`
 - spray pulse = `0.7 s`
+- base spray-time calibration = `1.0 ml`
 
 Color-marking rule used:
 
@@ -169,6 +170,7 @@ The project currently keeps the implemented code unchanged, but the active refer
 - `P_ref` or `S_ref` = `4 ml per plant`
 - `I_ref` = `40%`
 - `D_ref` = `2.5 plants/m^2`
+- with these values, `10%` infection gives `1 ml` when `D_current = D_ref = 2.5`
 
 These come from the handbook-style calculation already discussed in the project notes:
 

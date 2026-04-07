@@ -44,11 +44,12 @@ Completed.
 
 ## 3-plant timing defaults
 
-- plant 1 to plant 2 = `1.0 s`
-- plant 2 to plant 3 = `1.0 s`
-- plant 3 to stop/end = `0.8 s`
+- plant 1 to plant 2 = `5.0 s`
+- plant 2 to plant 3 = `5.0 s`
+- plant 3 to stop/end = `5.0 s`
 - belt speed = `0.10`
 - spray pulse = `0.7 s`
+- base spray-time calibration = `1.0 ml`
 
 ## Current output fields
 
