@@ -7,6 +7,7 @@ This folder contains the project entrypoints.
 - `run_pipeline.py`: runs the real scaffold pipeline on the demo setup
 - `test_pipeline.py`: demonstrates each phase with sample inputs, outputs, and explanations
 - `../run_all_phases.sh`: Raspberry Pi one-command launcher
+- `../run_three_plants.sh`: Raspberry Pi one-command launcher for plant 1, 2, and 3 in sequence
 - `../install_pi.sh`: Raspberry Pi setup helper
 
 ## Demo-oriented defaults
@@ -52,6 +53,11 @@ When `--input-image-dir captures/test_inputs` is used with `--plant-id plant_001
 - phase 1 picks the matching plant image only
 - fixed leaf boxes from `leaf_boxes_manifest.json` are cropped as the selected leaf images
 - an annotated source image with the selected boxes is written into `selected_leaves/`
+
+To run all 3 fixed test plants in one command on Raspberry Pi:
+
+- `./run_three_plants.sh`
+- optional custom input folder: `./run_three_plants.sh /home/sai/plant/captures/test_inputs`
 
 ## Raspberry Pi phase-2 behavior
 
