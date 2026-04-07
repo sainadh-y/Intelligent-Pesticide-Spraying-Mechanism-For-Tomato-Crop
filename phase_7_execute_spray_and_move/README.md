@@ -48,3 +48,25 @@ Completed.
 - plant 3 to stop/end = `0.8 s`
 - belt speed = `0.10`
 - spray pulse = `0.7 s`
+
+## Current output fields
+
+- next step after the current plant
+- execution status
+- execution note
+- applied spray amount in `ml`
+- estimated spray duration in seconds for that amount
+
+## Current spray-time interpretation
+
+For pesticide spray actions, the project now reports:
+
+- `applied_output`: how much spray is intended in `ml`
+- `spray_duration_seconds`: how long the pump is activated for that amount
+
+The duration is derived from the current calibration values:
+
+```text
+spray_flow_rate_ml_per_sec = base_spray_ml / spray_pulse
+spray_duration_seconds = applied_output / spray_flow_rate_ml_per_sec
+```

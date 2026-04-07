@@ -43,17 +43,25 @@ def run_phase(context: dict) -> dict:
         belt_ena = _create_enable_device(context.get("belt_ena_pin"))
 
     spray_pulse = float(context.get("spray_pulse", 0.6))
+    base_spray_ml = float(context.get("base_spray_ml", 5.0))
     spray_action = context.get("spray_action", "spray_pesticide")
     applied_output = float(context.get("applied_output", context.get("spray_ml_per_plant", 0.0)))
     belt_speed = float(context.get("belt_speed", 0.10))
     plant_index = int(context.get("plant_index", 1))
     total_plants = int(context.get("total_plants", 3))
     move_next_time = _next_move_duration(context, plant_index)
+    spray_flow_rate_ml_per_sec = (
+        base_spray_ml / spray_pulse if spray_pulse > 0 and base_spray_ml > 0 else 0.0
+    )
+    spray_duration_seconds = (
+        applied_output / spray_flow_rate_ml_per_sec if spray_flow_rate_ml_per_sec > 0 else 0.0
+    )
 
     print(f"[Phase 7] plant {context.get('plant_id')} action: {spray_action}")
-    print(f"[Phase 7] applied output: {applied_output}")
+    print(f"[Phase 7] applied output: {applied_output} ml")
     if spray_action == "spray_pesticide":
-        _pulse(spray_device, spray_pulse, spray_action, dry_run)
+        print(f"[Phase 7] spray duration: {spray_duration_seconds:.3f} s")
+        _pulse(spray_device, spray_duration_seconds, spray_action, dry_run)
         execution_note = "pump relay triggered for pesticide spray"
     else:
         print("[Phase 7] color-marking case recorded in output only, no pump action executed")
@@ -79,6 +87,9 @@ def run_phase(context: dict) -> dict:
         "spray_mode": context.get("spray_mode"),
         "spray_ml_per_plant": context.get("spray_ml_per_plant"),
         "applied_output": applied_output,
+        "applied_output_unit": "ml",
+        "spray_duration_seconds": round(spray_duration_seconds, 3) if spray_action == "spray_pesticide" else 0.0,
+        "spray_flow_rate_ml_per_sec": round(spray_flow_rate_ml_per_sec, 3) if spray_action == "spray_pesticide" else 0.0,
         "action": spray_action,
         "execution_note": execution_note,
         "next_step": next_step,
@@ -157,18 +168,22 @@ def explain_phase() -> dict:
             "spray_ml_per_plant": 18.5,
             "applied_output": 18.5,
             "action": "spray_pesticide",
+            "base_spray_ml": 5.0,
+            "spray_pulse": 0.6,
             "belt_in1_pin": 17,
             "belt_in2_pin": 27,
             "belt_ena_pin": 22,
             "spray_pin": 23,
             "relay_active_high": False,
-            "spray_pulse": 0.6,
             "plant1_to_plant2_time": 1.0,
             "belt_speed": 0.10,
         },
         "sample_output": {
             "next_step": "move_to_plant_2",
             "execution_note": "pump relay triggered for pesticide spray",
+            "applied_output": 18.5,
+            "applied_output_unit": "ml",
+            "spray_duration_seconds": 2.22,
             "execution_status": "completed",
         },
     }
