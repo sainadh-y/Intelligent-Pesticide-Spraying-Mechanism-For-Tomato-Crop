@@ -18,7 +18,7 @@ The runner is already aligned to the current demo hardware plan:
 - `GPIO 27` for L298N IN2
 - `GPIO 22` for L298N ENA
 - `GPIO 23` for pump relay
-- default relay behavior = `active-low`
+- default relay behavior = `active-high`
 - 3-plant movement flow: `start -> plant 1 -> plant 2 -> plant 3 -> stop`
 - default movement timings:
   - `5.0 s` start to plant 1
@@ -27,8 +27,8 @@ The runner is already aligned to the current demo hardware plan:
   - `5.0 s` plant 1 to plant 2
   - `5.0 s` plant 2 to plant 3
   - `5.0 s` plant 3 to stop
-- default belt speed = `0.10`
-- default spray pulse = `0.7 s`
+- default belt speed = `1.0`
+- default spray pulse = `1.0 s`
 - base spray-time calibration = `1.0 ml`
 - camera distance target = `2 to 6 inches`
 - color-marking case is reported in output only and does not trigger physical spray

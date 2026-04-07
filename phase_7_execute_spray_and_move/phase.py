@@ -31,7 +31,7 @@ def run_phase(context: dict) -> dict:
     belt_in1 = None
     belt_in2 = None
     belt_ena = None
-    relay_active_high = bool(context.get("relay_active_high", False))
+    relay_active_high = bool(context.get("relay_active_high", True))
     if not dry_run:
         spray_device = (
             OutputDevice(context["spray_pin"], active_high=relay_active_high)
@@ -184,7 +184,7 @@ def explain_phase() -> dict:
             "belt_in2_pin": 27,
             "belt_ena_pin": 22,
             "spray_pin": 23,
-            "relay_active_high": False,
+            "relay_active_high": True,
             "plant1_to_plant2_time": 1.0,
             "belt_speed": 0.10,
         },

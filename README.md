@@ -110,7 +110,7 @@ The current completed demo configuration is:
 - assumed practical carriage speed for control: `5 inches/second`
 - spray hardware: `12V diaphragm pump + misting nozzle`
 - relay type: `5V single-channel optocoupler relay module`
-- relay behavior used in project: `active-low`
+- relay behavior used in project: `active-high`
 - camera distance from plant target: `2 to 6 inches`
 - selected GPIO mapping:
   - `GPIO 17` -> motor driver `IN1`
@@ -133,8 +133,8 @@ Default timing values used in the code:
 - plant 1 to plant 2 = `5.0 s`
 - plant 2 to plant 3 = `5.0 s`
 - plant 3 to stop = `5.0 s`
-- belt speed = `0.10`
-- spray pulse = `0.7 s`
+- belt speed = `1.0`
+- spray pulse = `1.0 s`
 - base spray-time calibration = `1.0 ml`
 
 Color-marking rule used:
