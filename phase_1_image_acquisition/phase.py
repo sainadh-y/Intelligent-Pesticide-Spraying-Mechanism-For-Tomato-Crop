@@ -9,10 +9,7 @@ try:
 except ImportError:  # pragma: no cover
     cv2 = None
 
-try:
-    from picamera2 import Picamera2
-except ImportError:  # pragma: no cover
-    Picamera2 = None
+Picamera2 = None
 
 try:
     from gpiozero import OutputDevice, PWMOutputDevice
@@ -123,10 +120,17 @@ def _capture_images(context: dict) -> list[Path]:
         print(f"[Phase 1] loaded {len(images)} images from {input_dir}")
         return images
 
-    if Picamera2 is None:
-        raise RuntimeError("[Phase 1] Picamera2 not available. Use --input-image-dir for testing.")
+    camera_class = Picamera2
+    if camera_class is None:
+        try:
+            from picamera2 import Picamera2 as _Picamera2
+        except Exception as exc:  # pragma: no cover
+            raise RuntimeError(
+                "[Phase 1] Picamera2 not available. Use --input-image-dir for testing."
+            ) from exc
+        camera_class = _Picamera2
 
-    camera = Picamera2()
+    camera = camera_class()
     config = camera.create_still_configuration(main={"size": (1280, 960)})
     camera.configure(config)
     camera.start()
