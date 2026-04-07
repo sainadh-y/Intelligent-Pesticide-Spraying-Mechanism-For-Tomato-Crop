@@ -16,14 +16,12 @@ python3 "$ROOT_DIR/start/run_pipeline.py" \
 python3 "$ROOT_DIR/start/run_pipeline.py" \
   --plant-id plant_002 \
   --plant-index 2 \
-  --skip-phase1-move \
   --input-image-dir "$INPUT_IMAGE_DIR" \
   --save-json "$OUTPUT_DIR/plant_002_result.json"
 
 python3 "$ROOT_DIR/start/run_pipeline.py" \
   --plant-id plant_003 \
   --plant-index 3 \
-  --skip-phase1-move \
   --input-image-dir "$INPUT_IMAGE_DIR" \
   --save-json "$OUTPUT_DIR/plant_003_result.json"
 

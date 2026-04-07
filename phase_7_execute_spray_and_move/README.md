@@ -2,7 +2,7 @@
 
 ## Goal
 
-Execute the spray for the current plant and move the belt to the next plant.
+Execute the spray for the current plant.
 
 ## Completion status
 
@@ -14,9 +14,7 @@ Completed.
 - movement flow: `start -> plant 1 -> plant 2 -> plant 3 -> stop`
 - 12V diaphragm pump plus misting nozzle
 - 5V single-channel optocoupler relay module
-- relay behavior assumed in this project: `active-low`
-- L298N-style movement control
-- timed movement between plants
+- relay behavior assumed in this project: `active-high`
 - camera distance from the plant target: `2 to 6 inches`
 - selected GPIO mapping:
   - `GPIO 17` -> `IN1`
@@ -27,28 +25,20 @@ Completed.
 ## Demo hardware target
 
 - Raspberry Pi 4B
-- L298N motor driver for the belt motor
 - relay-controlled 12V spray solenoid
-- timed movement for demo positioning
 
 ## Current implementation
 
 - supports dry-run mode
 - can activate the pump relay
-- can drive the belt motor through L298N direction/enable control
-- moves from plant 1 to plant 2, plant 2 to plant 3, and stops after plant 3
 - records execution summary
 - supports pesticide spray or color-marking action based on phase 6
 - does not physically execute color spray; that case is recorded in output only as a removal/marking instruction
-- explicitly forces the pump relay OFF before any belt movement begins
+- explicitly forces the pump relay OFF before phase 7 ends
 
-## 3-plant timing defaults
+## Current defaults
 
-- plant 1 to plant 2 = `5.0 s`
-- plant 2 to plant 3 = `5.0 s`
-- plant 3 to stop/end = `5.0 s`
-- belt speed = `0.10`
-- spray pulse = `0.7 s`
+- spray pulse = `1.0 s`
 - base spray-time calibration = `1.0 ml`
 
 ## Current output fields
