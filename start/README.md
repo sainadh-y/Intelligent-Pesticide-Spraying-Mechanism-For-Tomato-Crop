@@ -59,6 +59,7 @@ To run all 3 fixed test plants in one command on Raspberry Pi:
 
 - `./run_three_plants.sh`
 - optional custom input folder: `./run_three_plants.sh /home/sai/plant/captures/test_inputs`
+- in this launcher, plant 2 and plant 3 skip the extra phase-1 start-position move because phase 7 already moved the belt forward from the previous plant
 
 ## Raspberry Pi phase-2 behavior
 

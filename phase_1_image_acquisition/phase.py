@@ -274,15 +274,19 @@ def run_phase(context: dict) -> dict:
     belt_speed = float(context.get("belt_speed", 0.10))
     move_duration, move_label = _plant_position_duration(context)
 
-    print(f"[Phase 1] moving belt: {move_label}")
-    _run_belt_forward(
-        belt_in1=belt_in1,
-        belt_in2=belt_in2,
-        belt_ena=belt_ena,
-        duration=move_duration,
-        speed=belt_speed,
-        dry_run=dry_run,
-    )
+    if bool(context.get("skip_phase1_move", False)):
+        print(f"[Phase 1] skipping belt move for {move_label}")
+        move_duration = 0.0
+    else:
+        print(f"[Phase 1] moving belt: {move_label}")
+        _run_belt_forward(
+            belt_in1=belt_in1,
+            belt_in2=belt_in2,
+            belt_ena=belt_ena,
+            duration=move_duration,
+            speed=belt_speed,
+            dry_run=dry_run,
+        )
 
     raw_images = _capture_images(context)
     selected = _select_best_images(raw_images, context)

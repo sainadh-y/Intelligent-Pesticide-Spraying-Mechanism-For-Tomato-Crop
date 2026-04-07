@@ -28,6 +28,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--image-count", type=int, default=8, help="How many raw images to capture at each plant.")
     parser.add_argument("--selected-leaves", type=int, default=6, help="How many best leaf images to keep.")
     parser.add_argument("--capture-delay", type=float, default=1.5, help="Camera warm-up delay before capture.")
+    parser.add_argument("--skip-phase1-move", action="store_true", help="Skip the initial phase-1 belt movement for this run.")
     parser.add_argument("--belt-move-time", type=float, default=5.0, help="Fallback time to move belt into position.")
     parser.add_argument("--start-to-plant1-time", type=float, default=5.0, help="Time from start position to plant 1.")
     parser.add_argument("--start-to-plant2-time", type=float, default=5.0, help="Time from start position to plant 2.")
