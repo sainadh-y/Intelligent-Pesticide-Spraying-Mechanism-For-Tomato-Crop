@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import shutil
 import time
 from pathlib import Path
@@ -114,9 +115,15 @@ def _capture_images(context: dict) -> list[Path]:
 
     if input_dir:
         input_dir = Path(input_dir)
-        images = sorted(
+        all_images = sorted(
             [path for path in input_dir.iterdir() if path.suffix.lower() in {".jpg", ".jpeg", ".png"}]
-        )[:image_count]
+        )
+        plant_id = str(context.get("plant_id", "")).lower()
+        plant_index = int(context.get("plant_index", 1))
+        matched_images = [path for path in all_images if path.name.lower().startswith(f"{plant_id}_")]
+        if not matched_images:
+            matched_images = [path for path in all_images if path.name.lower().startswith(f"plant_{plant_index:03d}_")]
+        images = (matched_images or all_images)[:image_count]
         print(f"[Phase 1] loaded {len(images)} images from {input_dir}")
         return images
 
@@ -162,11 +169,91 @@ def _detect_leaf_boxes(image_path: Path, yolo_weights: Path | None) -> list[tupl
     return boxes
 
 
+def _load_leaf_box_manifest(input_dir: Path | None) -> dict:
+    if input_dir is None:
+        return {}
+    manifest_path = Path(input_dir) / "leaf_boxes_manifest.json"
+    if not manifest_path.exists():
+        return {}
+    return json.loads(manifest_path.read_text(encoding="utf-8"))
+
+
+def _crop_with_box(image, box: list[int] | tuple[int, int, int, int]):
+    x1, y1, x2, y2 = [int(value) for value in box]
+    return image[y1:y2, x1:x2], (x1, y1, x2, y2)
+
+
+def _select_manual_leaf_crops(raw_images: list[Path], context: dict, manifest: dict) -> list[dict]:
+    if cv2 is None or not manifest:
+        return []
+
+    selected_dir = Path(context["selected_dir"])
+    selected_dir.mkdir(parents=True, exist_ok=True)
+    selected_count = int(context.get("selected_leaves", 6))
+    selected: list[dict] = []
+    overlay_paths: list[str] = []
+
+    for raw_image in raw_images:
+        boxes = manifest.get(raw_image.name)
+        if not boxes:
+            continue
+
+        image = cv2.imread(str(raw_image))
+        if image is None:
+            continue
+
+        overlay = image.copy()
+        for local_index, item in enumerate(boxes[:selected_count], start=1):
+            crop, (x1, y1, x2, y2) = _crop_with_box(image, item["box"])
+            if crop.size == 0:
+                continue
+            target = selected_dir / f"{context['plant_id']}_leaf_{local_index}.jpg"
+            cv2.imwrite(str(target), crop)
+            label = str(item.get("leaf_id", local_index))
+            cv2.rectangle(overlay, (x1, y1), (x2, y2), (0, 0, 255), 3)
+            cv2.putText(
+                overlay,
+                label,
+                (x1 + 6, max(28, y1 + 28)),
+                cv2.FONT_HERSHEY_SIMPLEX,
+                1.0,
+                (0, 0, 255),
+                2,
+                cv2.LINE_AA,
+            )
+            selected.append(
+                {
+                    "image_path": str(raw_image.resolve()),
+                    "source_image_path": str(raw_image.resolve()),
+                    "source_image_name": raw_image.name,
+                    "leaf_id": label,
+                    "crop_box": [x1, y1, x2, y2],
+                    "focus_score": round(_focus_score(target), 2),
+                    "leaf_boxes_found": len(boxes),
+                    "selection_score": round(_focus_score(target), 2),
+                    "selected_path": str(target.resolve()),
+                }
+            )
+
+        overlay_path = selected_dir / f"{context['plant_id']}_selected_leaf_boxes.jpg"
+        cv2.imwrite(str(overlay_path), overlay)
+        overlay_paths.append(str(overlay_path.resolve()))
+
+    if selected:
+        context["selected_leaf_box_images"] = overlay_paths
+    return selected
+
+
 def _select_best_images(raw_images: list[Path], context: dict) -> list[dict]:
     selected_dir = Path(context["selected_dir"])
     selected_dir.mkdir(parents=True, exist_ok=True)
     yolo_weights = context.get("yolo_weights")
     selected_count = int(context.get("selected_leaves", 6))
+    input_dir = Path(context["input_image_dir"]) if context.get("input_image_dir") else None
+
+    manual_selected = _select_manual_leaf_crops(raw_images, context, _load_leaf_box_manifest(input_dir))
+    if manual_selected:
+        return manual_selected
 
     scored = []
     for image_path in raw_images:
@@ -175,6 +262,8 @@ def _select_best_images(raw_images: list[Path], context: dict) -> list[dict]:
         scored.append(
             {
                 "image_path": str(image_path.resolve()),
+                "source_image_path": str(image_path.resolve()),
+                "source_image_name": image_path.name,
                 "focus_score": round(score, 2),
                 "leaf_boxes_found": len(boxes),
                 "selection_score": round(score + (len(boxes) * 100.0), 2),
@@ -226,6 +315,7 @@ def run_phase(context: dict) -> dict:
         "raw_image_paths": [str(path.resolve()) for path in raw_images],
         "selected_leaf_images": selected,
         "selected_count": len(selected),
+        "selected_leaf_box_images": context.get("selected_leaf_box_images", []),
     }
     context["selected_leaf_image_paths"] = [item["selected_path"] for item in selected]
 

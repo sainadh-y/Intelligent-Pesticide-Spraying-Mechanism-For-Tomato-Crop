@@ -34,6 +34,7 @@ Completed.
 - uses plant-index based movement timing for the 3-plant demo
 - computes focus score using Laplacian variance
 - has a YOLO hook that can be connected later with custom weights
+- for the fixed no-camera 3-plant test set, supports manual leaf-box extraction from `captures/test_inputs/leaf_boxes_manifest.json`
 
 ## 3-plant timing defaults
 
@@ -46,4 +47,6 @@ Completed.
 
 - raw image file paths
 - selected leaf image file paths
+- selected leaf source image path and crop box for each extracted leaf
+- annotated selected-leaf box image when manual leaf extraction is used
 - image acquisition summary

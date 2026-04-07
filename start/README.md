@@ -45,6 +45,13 @@ The runner is already aligned to the current demo hardware plan:
   - `captures/test_inputs/plant_001_BLK_3_1002_PL009_NH.JPG`
   - `captures/test_inputs/plant_002_BLK_3_1002_PL039_H.JPG`
   - `captures/test_inputs/plant_003_BLK_3_1002_PL031_H.JPG`
+  - `captures/test_inputs/leaf_boxes_manifest.json`
+
+When `--input-image-dir captures/test_inputs` is used with `--plant-id plant_001`, `plant_002`, or `plant_003`:
+
+- phase 1 picks the matching plant image only
+- fixed leaf boxes from `leaf_boxes_manifest.json` are cropped as the selected leaf images
+- an annotated source image with the selected boxes is written into `selected_leaves/`
 
 ## Raspberry Pi phase-2 behavior
 
