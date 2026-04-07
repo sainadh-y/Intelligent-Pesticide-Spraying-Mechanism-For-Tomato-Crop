@@ -37,6 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--plant2-to-plant3-time", type=float, default=5.0, help="Time from plant 2 to plant 3.")
     parser.add_argument("--plant3-to-end-time", type=float, default=5.0, help="Time from plant 3 to end/stop.")
     parser.add_argument("--spray-pulse", type=float, default=1.0, help="Pump activation time in seconds.")
+    parser.add_argument("--pump-settle-delay", type=float, default=0.5, help="Wait time after pump off before belt movement.")
     parser.add_argument("--move-next-time", type=float, default=5.0, help="Fallback time to move to the next plant.")
     parser.add_argument("--base-spray-ml", type=float, default=1.0, help="Base spray amount.")
     parser.add_argument("--p-ref", type=float, default=4.0, help="Reference spray amount P_ref.")

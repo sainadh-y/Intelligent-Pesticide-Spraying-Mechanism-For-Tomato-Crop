@@ -46,6 +46,7 @@ def run_phase(context: dict) -> dict:
 
     spray_pulse = float(context.get("spray_pulse", 0.6))
     base_spray_ml = float(context.get("base_spray_ml", 5.0))
+    pump_settle_delay = float(context.get("pump_settle_delay", 0.5))
     spray_action = context.get("spray_action", "spray_pesticide")
     applied_output = float(context.get("applied_output", context.get("spray_ml_per_plant", 0.0)))
     belt_speed = float(context.get("belt_speed", 0.10))
@@ -71,6 +72,9 @@ def run_phase(context: dict) -> dict:
 
     if spray_device is not None and not dry_run:
         spray_device.off()
+        if pump_settle_delay > 0:
+            print(f"[Phase 7] waiting {pump_settle_delay:.2f}s for pump/relay to settle before movement")
+            time.sleep(pump_settle_delay)
 
     if plant_index < total_plants:
         print(f"[Phase 7] moving from plant {plant_index} to plant {plant_index + 1}")
@@ -95,6 +99,7 @@ def run_phase(context: dict) -> dict:
         "applied_output_unit": "ml",
         "spray_duration_seconds": round(spray_duration_seconds, 3) if spray_action == "spray_pesticide" else 0.0,
         "spray_flow_rate_ml_per_sec": round(spray_flow_rate_ml_per_sec, 3) if spray_action == "spray_pesticide" else 0.0,
+        "pump_settle_delay": round(pump_settle_delay, 3) if spray_action == "spray_pesticide" else 0.0,
         "action": spray_action,
         "execution_note": execution_note,
         "next_step": next_step,
