@@ -40,6 +40,7 @@ Completed.
 - records execution summary
 - supports pesticide spray or color-marking action based on phase 6
 - does not physically execute color spray; that case is recorded in output only as a removal/marking instruction
+- explicitly forces the pump relay OFF before any belt movement begins
 
 ## 3-plant timing defaults
 

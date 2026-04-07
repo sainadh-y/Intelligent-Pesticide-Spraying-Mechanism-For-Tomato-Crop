@@ -41,6 +41,8 @@ def run_phase(context: dict) -> dict:
         belt_in1 = OutputDevice(context["belt_in1_pin"]) if context.get("belt_in1_pin") is not None else None
         belt_in2 = OutputDevice(context["belt_in2_pin"]) if context.get("belt_in2_pin") is not None else None
         belt_ena = _create_enable_device(context.get("belt_ena_pin"))
+        if spray_device is not None:
+            spray_device.off()
 
     spray_pulse = float(context.get("spray_pulse", 0.6))
     base_spray_ml = float(context.get("base_spray_ml", 5.0))
@@ -66,6 +68,9 @@ def run_phase(context: dict) -> dict:
     else:
         print("[Phase 7] color-marking case recorded in output only, no pump action executed")
         execution_note = "color-marking noted in output only; no physical spray executed"
+
+    if spray_device is not None and not dry_run:
+        spray_device.off()
 
     if plant_index < total_plants:
         print(f"[Phase 7] moving from plant {plant_index} to plant {plant_index + 1}")
