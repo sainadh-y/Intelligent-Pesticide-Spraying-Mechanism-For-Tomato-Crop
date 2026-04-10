@@ -112,9 +112,18 @@ If you want real phase 2 inference on the Pi, you also need:
 
 - `torch`
 - `torchvision`
-- `phase_2_disease_detection/models/phase_2_tomato_unet.pt`
+- the included model weights at `phase_2_disease_detection/models/phase_2_tomato_unet.pt`
 
 If they are missing, the pipeline still runs with a safe phase-2 fallback.
+
+## Included Phase 2 Assets
+
+The repository now includes:
+
+- the prepared tomato disease dataset in `phase_2_disease_detection/phase_2_dataset/`
+- the trained weights file in `phase_2_disease_detection/models/phase_2_tomato_unet.pt`
+
+The original larger source archive `plantseg.zip` is still excluded from git.
 
 ## Run On Raspberry Pi
 
