@@ -1,6 +1,6 @@
-# Tomato Plant Belt Spray Pipeline
+# Intelligent Pesticide Spraying Mechanism For Tomato Crop
 
-This repository contains a completed 7-phase demo pipeline for automated tomato plant inspection and pesticide spray recommendation using a Raspberry Pi, camera, belt movement, and a relay-controlled pump.
+This repository contains a completed 7-phase demo pipeline for automated tomato crop inspection and pesticide spray recommendation using a Raspberry Pi, camera, belt movement, and a relay-controlled pump.
 
 The project supports two practical ways to run:
 
