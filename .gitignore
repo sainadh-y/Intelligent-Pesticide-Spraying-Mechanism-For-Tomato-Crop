@@ -6,6 +6,7 @@ captures/*
 !captures/test_inputs/*.JPG
 selected_leaves/
 test_runs/
+output/
 
 phase_2_disease_detection/plantseg.zip
 phase_2_disease_detection/phase_2_dataset/

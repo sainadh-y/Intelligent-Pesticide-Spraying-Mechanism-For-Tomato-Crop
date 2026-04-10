@@ -1,321 +1,245 @@
 # Tomato Plant Belt Spray Pipeline
 
-This project is structured around the 7 phases you described for a Raspberry Pi based belt-mounted plant inspection and spraying demo system for tomato plants.
+This repository contains a completed 7-phase demo pipeline for automated tomato plant inspection and pesticide spray recommendation using a Raspberry Pi, camera, belt movement, and a relay-controlled pump.
 
-## Demo hardware configuration
+The project supports two practical ways to run:
+
+- Raspberry Pi with GPIO and camera hardware
+- A normal computer using the provided test plant images without camera hardware
+
+## Final Demo Scope
+
+- 3 demo plants
+- movement flow: `start -> plant 1 -> plant 2 -> plant 3 -> stop`
+- manual leaf extraction from 3 fixed plant images for no-camera testing
+- phase 2 disease detection using a tomato-only U-Net model when `torch` and weights are available
+- safe fallback when phase 2 dependencies are missing
+- logic-based visible damage estimation in phase 3
+- spray amount calculation in milliliters
+- spray execution time derived from spray amount
+
+## Hardware Configuration
 
 - Raspberry Pi 4B
-- Raspberry Pi OS Legacy 64-bit Full
 - Raspberry Pi Camera via CSI
-- one DC motor for belt movement
-- one L298N motor driver for belt control
-- one relay-controlled spray line
-- external 12V power supply for motor and spray side
-- tomato plant row with only 2-3 plants for demo
-- slow belt speed around 0.5 m/min
+- L298N motor driver
+- DC motor for carriage or belt movement
+- 5V relay module for pump switching
+- pump and misting nozzle
+- external power supply for motor and pump side
 
-## Demo GPIO mapping
+### GPIO Mapping
 
-BCM numbering:
+- `GPIO 17` -> `L298N IN1`
+- `GPIO 27` -> `L298N IN2`
+- `GPIO 22` -> `L298N ENA`
+- `GPIO 23` -> relay input
 
-- GPIO 17: L298N IN1
-- GPIO 27: L298N IN2
-- GPIO 22: L298N ENA
-- GPIO 23: relay input for spray solenoid
+### Active Project Defaults
 
-## Workflow
-
-1. Belt stops at a plant and the camera captures multiple leaf images
-2. Disease identification estimates the percentage of each disease for that plant
-3. Leaf damage estimation computes the average visible damage percentage for that plant
-4. Aggregation combines disease and damage outputs into infection average
-5. Spray calculation computes the amount to spray
-6. Model selection chooses the spray mode
-7. Spray executes and the belt moves to the next plant
-
-## Phase 6 current note
-
-- `standard_spray` is only the action category
-- phase 6 now keeps `applied_output` equal to the phase-5 calculated amount even when the mode is `standard_spray`
-- the older fixed `10.0` standard output is no longer used
-
-## Strict completion status
-
-Using your rule that even one missing item means the phase is not completed:
-
-- Phase 1: completed
-- Phase 2: completed
-- Phase 3: completed
-- Phase 4: completed
-- Phase 5: completed
-- Phase 6: completed
-- Phase 7: completed
-
-## Latest project decision update
-
-This section is the latest override for the current project direction and should be treated as the active interpretation when it differs from older notes below.
-
-- Phase 3 is now planned as a logic-based phase, not an ML-model phase
-- phase-3 validation is currently treated as oral validation from tomato farmers in Telangana state, India
-- phase-5 reference constants are now to be interpreted from the handbook measurements already discussed in the project
-
-Updated practical status under this latest decision:
-
-- Phase 1: completed
-- Phase 2: completed
-- Phase 3: completed as a logic-based phase
-- Phase 4: completed
-- Phase 5: completed
-- Phase 6: completed
-- Phase 7: completed
-
-## Phase 2 summary
-
-Phase 2 is now completed as a tomato-only disease segmentation pipeline.
-
-What was done:
-
-- PlantSeg archive added locally
-- tomato-only classes filtered from the archive
-- local prepared dataset created
-- U-Net model implemented
-- training code implemented
-- inference code implemented
-- initial local model weights trained and saved
-- plant-level averaging integrated into the main pipeline
-
-Tomato-only classes used:
-
-- `tomato_bacterial_leaf_spot`
-- `tomato_early_blight`
-- `tomato_late_blight`
-- `tomato_leaf_mold`
-- `tomato_mosaic_virus`
-- `tomato_septoria_leaf_spot`
-- `tomato_yellow_leaf_curl_virus`
-
-Prepared dataset counts:
-
-- train: 460
-- val: 74
-- test: 133
-
-## Final 3-plant demo setup now used
-
-The current completed demo configuration is:
-
-- movement flow: `start -> plant 1 -> plant 2 -> plant 3 -> stop`
-- motor: `12V 500 RPM geared DC motor`
-- drive wheel diameter: `2.5 inches`
-- assumed practical carriage speed for control: `5 inches/second`
-- spray hardware: `12V diaphragm pump + misting nozzle`
-- relay type: `5V single-channel optocoupler relay module`
-- relay behavior used in project: `active-high`
-- camera distance from plant target: `2 to 6 inches`
-- selected GPIO mapping:
-  - `GPIO 17` -> motor driver `IN1`
-  - `GPIO 27` -> motor driver `IN2`
-  - `GPIO 22` -> motor driver `ENA`
-  - `GPIO 23` -> pump relay
-
-Plant spacing used:
-
-- start to plant 1 = `4 inches`
-- plant 1 to plant 2 = `5 inches`
-- plant 2 to plant 3 = `5 inches`
-- plant 3 to stop = `4 inches`
-
-Default timing values used in the code:
-
-- start to plant 1 = `5.0 s`
-- start to plant 2 = `5.0 s`
-- start to plant 3 = `5.0 s`
-- plant 1 to plant 2 = `5.0 s`
-- plant 2 to plant 3 = `5.0 s`
-- plant 3 to stop = `5.0 s`
+- relay behavior: `active-high`
+- movement timing:
+  - start to plant 1 = `5.0 s`
+  - start to plant 2 = `5.0 s`
+  - start to plant 3 = `5.0 s`
 - belt speed = `1.0`
-- spray pulse = `1.0 s`
-- base spray-time calibration = `1.0 ml`
+- spray pulse calibration = `1.0 s`
+- base spray calibration = `1.0 ml`
+- phase 5 references:
+  - `P_ref = 4.0 ml`
+  - `I_ref = 0.40`
+  - `D_current = 2.5`
+  - `D_ref = 2.5`
 
-Color-marking rule used:
+With those references, `10%` infection gives `1 ml` when `D_current = D_ref`.
 
-- when the output enters the color-marking case, the written output reports `spray color` or `mark for removal`
-- no physical color spray is executed in the current demo hardware flow
+## Repository Structure
 
-## Phase 5 completion note
+- [start](start)
+  - pipeline runner and test runner
+- [phase_1_image_acquisition](phase_1_image_acquisition)
+  - movement to plant, image loading or capture, selected leaf generation
+- [phase_2_disease_detection](phase_2_disease_detection)
+  - U-Net tomato disease inference
+- [phase_3_leaf_damage_detection](phase_3_leaf_damage_detection)
+  - logic-based visible leaf damage estimation
+- [phase_4_aggregation](phase_4_aggregation)
+  - infection averaging
+- [phase_5_spray_calculation](phase_5_spray_calculation)
+  - spray amount formula
+- [phase_6_spray_model_selection](phase_6_spray_model_selection)
+  - mode selection
+- [phase_7_execute_spray_and_move](phase_7_execute_spray_and_move)
+  - spray execution for current plant
+- [captures/test_inputs](captures/test_inputs)
+  - fixed 3-plant test images and manual leaf-box manifest
+- [mock_outputs](mock_outputs)
+  - wiring and setup diagrams
 
-- Phase 5 is marked as completed for the current project version
-- remaining practical gaps are still documented for future validation and refinement
+## Phase Summary
 
-## Remaining practical gaps in phase 5
+1. Phase 1 moves to the target plant and prepares leaf images.
+2. Phase 2 predicts disease percentages from selected leaves.
+3. Phase 3 estimates visible damage percentage from selected leaves.
+4. Phase 4 combines disease and damage into one infection average.
+5. Phase 5 converts infection average into spray amount in `ml`.
+6. Phase 6 maps that amount into a spray action.
+7. Phase 7 executes the spray for the current plant.
 
-Even though phase 5 is marked as completed for now, the following practical items are still worth noting:
+## Test Inputs
 
-- real experimental calibration on the final hardware setup is still pending
-- exact confirmation that the formula gives the correct spray quantity across different plants is still pending
-- phase-6 threshold alignment with the current phase-5 output scale may still need re-checking
+The repository includes fixed no-camera test inputs:
 
-## Validation note
+- [plant_001_BLK_3_1002_PL009_NH.JPG](captures/test_inputs/plant_001_BLK_3_1002_PL009_NH.JPG)
+- [plant_002_BLK_3_1002_PL039_H.JPG](captures/test_inputs/plant_002_BLK_3_1002_PL039_H.JPG)
+- [plant_003_BLK_3_1002_PL031_H.JPG](captures/test_inputs/plant_003_BLK_3_1002_PL031_H.JPG)
+- [leaf_boxes_manifest.json](captures/test_inputs/leaf_boxes_manifest.json)
 
-Current practical validation recorded for this project:
+These let you run the full project without using the camera.
 
-- oral validation from tomato farmers in Telangana state, India
+## Setup On Raspberry Pi
 
-This validation note is currently used as a practical field-understanding input for the logic and handbook-based reference values. It is not the same as a formal experimental validation study.
-
-## Handbook-based reference constants used for phase 5
-
-The project currently keeps the implemented code unchanged, but the active reference constants to interpret the formula are:
-
-- `P_ref` or `S_ref` = `4 ml per plant`
-- `I_ref` = `40%`
-- `D_ref` = `2.5 plants/m^2`
-- with these values, `10%` infection gives `1 ml` when `D_current = D_ref = 2.5`
-
-These come from the handbook-style calculation already discussed in the project notes:
-
-- total spray mixture = `40 liters`
-- total plants = `10,000`
-- field area = `40,000 m^2`
-
-Derived values:
-
-- `S_ref = (40 x 1000) / 10000 = 4 ml`
-- `D_ref = 10000 / 40000 = 2.5 plants/m^2`
-
-## Main folders
-
-- [start](C:\Users\sai-y\Downloads\plant\start)
-- [phase_1_image_acquisition](C:\Users\sai-y\Downloads\plant\phase_1_image_acquisition)
-- [phase_2_disease_detection](C:\Users\sai-y\Downloads\plant\phase_2_disease_detection)
-- [phase_3_leaf_damage_detection](C:\Users\sai-y\Downloads\plant\phase_3_leaf_damage_detection)
-- [phase_4_aggregation](C:\Users\sai-y\Downloads\plant\phase_4_aggregation)
-- [phase_5_spray_calculation](C:\Users\sai-y\Downloads\plant\phase_5_spray_calculation)
-- [phase_6_spray_model_selection](C:\Users\sai-y\Downloads\plant\phase_6_spray_model_selection)
-- [phase_7_execute_spray_and_move](C:\Users\sai-y\Downloads\plant\phase_7_execute_spray_and_move)
-
-## Install
-
-For Raspberry Pi OS, use the Pi installer script:
+Install:
 
 ```bash
-chmod +x install_pi.sh
+cd ~/plant
+chmod +x install_pi.sh run_all_phases.sh run_three_plants.sh
 ./install_pi.sh
 source .venv/bin/activate
 ```
 
-For a generic Python environment, you can still use:
+If you want real phase 2 inference on the Pi, you also need:
+
+- `torch`
+- `torchvision`
+- `phase_2_disease_detection/models/phase_2_tomato_unet.pt`
+
+If they are missing, the pipeline still runs with a safe phase-2 fallback.
+
+## Run On Raspberry Pi
+
+### Single plant using fixed test images
 
 ```bash
+cd ~/plant
+source .venv/bin/activate
+python3 start/run_pipeline.py --plant-id plant_001 --plant-index 1 --input-image-dir /home/sai/plant/captures/test_inputs --save-json /home/sai/plant/output/plant_001_result.json
+```
+
+### All 3 plants using fixed test images
+
+```bash
+cd ~/plant
+source .venv/bin/activate
+bash run_three_plants.sh
+```
+
+### One-command single plant launcher
+
+```bash
+cd ~/plant
+source .venv/bin/activate
+./run_all_phases.sh plant_001 1 /home/sai/plant/captures/test_inputs
+```
+
+### Camera-based run on Raspberry Pi
+
+```bash
+cd ~/plant
+source .venv/bin/activate
+python3 start/run_pipeline.py --plant-id plant_001 --plant-index 1 --save-json /home/sai/plant/output/plant_001_camera_result.json
+```
+
+## Run On A Normal Computer
+
+This is the recommended path on a Windows or Linux computer when you are not using Raspberry Pi hardware.
+
+Install:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Raspberry Pi notes
+If you are using Windows PowerShell:
 
-- `requirements.txt` is now intentionally light for Raspberry Pi.
-- `OpenCV` and `Picamera2` should be installed from `apt` on the Pi.
-- `install_pi.sh` now creates `.venv` with `--system-site-packages` so Raspberry Pi system GPIO/camera packages are visible inside the virtual environment.
-- phase 2 now fails gracefully on the Pi:
-  - if `torch` is missing, the pipeline continues with a safe zero-disease fallback
-  - if the weights file is missing, the pipeline continues with a safe zero-disease fallback
-- to enable real phase-2 disease inference on the Pi, you still need:
-  - `torch`
-  - `torchvision`
-  - `phase_2_disease_detection/models/phase_2_tomato_unet.pt`
-
-## Additional greenhouse tomato reference notes for phase 5
-
-The current phase-5 code remains unchanged, but the following published greenhouse tomato references are important for future spray-formula refinement:
-
-- [Volume application rate adapted to the canopy size in greenhouse tomato crops](https://revistas.usp.br/sa/article/view/78522)
-- [Deposition analysis of several application volumes of pesticides adapted to the growth of a greenhouse tomato crop](https://www.actahort.org/books/691/691_20.htm)
-- [Evaluation of the effect of spray pressure in hand-held sprayers in a greenhouse tomato crop](https://www.sciencedirect.com/science/article/abs/pii/S0261219413002056)
-- [A variable-rate spraying method fusing canopy volume and disease detection to reduce pesticide dosage](https://www.sciencedirect.com/science/article/abs/pii/S0168169925007124)
-
-These support the idea that greenhouse tomato spray amount depends strongly on:
-
-- disease severity
-- canopy size or canopy volume
-- growth stage
-- leaf area index
-- spray pressure
-- deposition quality
-
-Literature-backed reference values or ranges mentioned in those studies include:
-
-- canopy heights: `0.75 m`, `2.25 m`, `2.80 m`
-- LAI range: `0.68 to 3.16 m^2/m^2`
-- spray volume:
-  - `500 to 1500 L/ha` for smaller or early-stage canopy
-  - `1000 to 3000 L/ha` for larger or later-stage canopy
-- spray pressures tested:
-  - `2.5`, `5`, `10`, `15 bar`
-  - or `1000`, `1500`, `2000 kPa`
-
-These references support future interpretation of:
-
-- `C_ref` as a canopy reference condition
-- `S_ref` as a calibrated reference spray amount
-
-But they do not provide one universal tomato `I_ref` infection percentage.
-
-The current project therefore keeps both of the following in documentation:
-
-- handbook-based operational constants now used in this project:
-  - `S_ref/P_ref = 4 ml`
-  - `I_ref = 40%`
-  - `D_ref = 2.5 plants/m^2`
-- published-paper guidance for future refinement:
-  - canopy-related refinement
-  - greenhouse spray-volume ranges
-  - pressure and deposition considerations
-
-## Run the demo scaffold pipeline
-
-```bash
-python start/run_pipeline.py --dry-run --plant-id plant_001 --plant-index 1 --belt-in1-pin 17 --belt-in2-pin 27 --belt-ena-pin 22 --spray-pin 23
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 ```
 
-## One-command launcher
+### Single plant on a normal computer
 
-You can run the full pipeline with the root launcher file:
+Linux or macOS:
 
 ```bash
-run_all_phases.bat
+python start/run_pipeline.py --dry-run --plant-id plant_001 --plant-index 1 --input-image-dir captures/test_inputs --save-json output/plant_001_result.json
 ```
 
-Optional arguments:
+Windows PowerShell:
+
+```powershell
+python start/run_pipeline.py --dry-run --plant-id plant_001 --plant-index 1 --input-image-dir captures/test_inputs --save-json output/plant_001_result.json
+```
+
+### All 3 plants on a normal computer
+
+Linux or macOS:
 
 ```bash
+python start/run_pipeline.py --dry-run --plant-id plant_001 --plant-index 1 --input-image-dir captures/test_inputs --save-json output/three_plants/plant_001_result.json
+python start/run_pipeline.py --dry-run --plant-id plant_002 --plant-index 2 --input-image-dir captures/test_inputs --save-json output/three_plants/plant_002_result.json
+python start/run_pipeline.py --dry-run --plant-id plant_003 --plant-index 3 --input-image-dir captures/test_inputs --save-json output/three_plants/plant_003_result.json
+```
+
+Windows PowerShell:
+
+```powershell
+python start/run_pipeline.py --dry-run --plant-id plant_001 --plant-index 1 --input-image-dir captures/test_inputs --save-json output/three_plants/plant_001_result.json
+python start/run_pipeline.py --dry-run --plant-id plant_002 --plant-index 2 --input-image-dir captures/test_inputs --save-json output/three_plants/plant_002_result.json
+python start/run_pipeline.py --dry-run --plant-id plant_003 --plant-index 3 --input-image-dir captures/test_inputs --save-json output/three_plants/plant_003_result.json
+```
+
+Or use the Windows launchers:
+
+```powershell
 run_all_phases.bat plant_001 1
-run_all_phases.bat plant_002 2
-run_all_phases.bat plant_003 3
+run_three_plants.bat
 ```
 
-Optional custom image folder:
+## Output Locations
 
-```bash
-run_all_phases.bat plant_001 1 C:\path\to\images
-```
+Generated runtime outputs are written outside git tracking:
 
-The launcher:
+- `output/`
+- `selected_leaves/`
+- `captures/` for live camera captures
 
-- runs all phases in order
-- uses dry-run mode
-- uses the current project defaults
-- saves output JSON in:
-  - `test_runs\launcher_runs\<plant_id>\result.json`
+Important saved outputs include:
 
-On Raspberry Pi OS, use:
+- selected leaf crops
+- selected leaf box overlay images
+- final JSON pipeline results
 
-```bash
-chmod +x run_all_phases.sh
-source .venv/bin/activate
-./run_all_phases.sh plant_001 1 /home/sai/plant/test_images
-```
+## Notes About Phase 2
 
-## Run the testing/demo file
+Phase 2 has two valid run modes:
 
-```bash
-python start/test_pipeline.py
-```
+- full inference mode:
+  - requires `torch`, `torchvision`, and model weights
+- fallback mode:
+  - returns zero disease percentages and keeps the remaining phases running
+
+This makes the project usable on systems where phase 2 dependencies are not available.
+
+## Diagrams
+
+Useful diagrams are kept in [mock_outputs](mock_outputs):
+
+- [architecture_connection_diagram.svg](mock_outputs/architecture_connection_diagram.svg)
+- [hardware_3plant_setup.svg](mock_outputs/hardware_3plant_setup.svg)
+- [relay_pin_layout_exact.svg](mock_outputs/relay_pin_layout_exact.svg)
+- [wiring_connections_3plant_demo.svg](mock_outputs/wiring_connections_3plant_demo.svg)
+- [wiring_connections_simple.svg](mock_outputs/wiring_connections_simple.svg)

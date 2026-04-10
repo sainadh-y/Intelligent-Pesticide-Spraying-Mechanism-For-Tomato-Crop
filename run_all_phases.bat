@@ -11,7 +11,7 @@ if "%PLANT_INDEX%"=="" set "PLANT_INDEX=1"
 set "INPUT_IMAGE_DIR=%~3"
 if "%INPUT_IMAGE_DIR%"=="" set "INPUT_IMAGE_DIR=%ROOT%captures\test_inputs"
 
-set "OUTPUT_DIR=%ROOT%test_runs\launcher_runs\%PLANT_ID%"
+set "OUTPUT_DIR=%ROOT%output\launcher_runs\%PLANT_ID%"
 if not exist "%OUTPUT_DIR%" mkdir "%OUTPUT_DIR%"
 
 python "%ROOT%start\run_pipeline.py" ^
